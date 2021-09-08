@@ -1,9 +1,9 @@
 var triangleInput;
 var col;
 var row;
-var heightLimit = 100;
+var limit = 100;
 
-for (col = 0; col < heightLimit; col++) {
+for (col = 0; col < limit; col++) {
     triangleInput = "*"
     for (row = 0; row < col; ++row) {
         triangleInput += "*";
