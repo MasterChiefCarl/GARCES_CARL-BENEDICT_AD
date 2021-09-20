@@ -6,7 +6,7 @@ export class UserService {
 
     private users: Map<number,User> = new Map<number,User>();
     private counter:number = 1;
-    private LIMIT: number = 10;
+    private LIMIT: number = 20;
 
     constructor(){
         this.populate();
@@ -31,11 +31,11 @@ export class UserService {
     addUser(user:any){
         var newUser: User; 
         newUser = new User (this.counter,user?.name,user?.age,user?.email,user?.password);
-        if (this.counter <= this.LIMIT ){
+        if (this.counter <= this.LIMIT){
             this.users.set(this.counter, newUser);
             this.logAllUsers();
             this.counter++;
-            return `New user has been sucessfully added. Thank you for Registering!`;
+            return `New user has been sucessfully added. Thank you for Registering!\nSlots Remaining:${this.counter}`;
             }
             else return `LIMIT REACHED!\nUser Registration has reached its LIMIT (${this.LIMIT}).\nPlease Contact Support for more info.`;
          }
@@ -62,13 +62,15 @@ export class UserService {
     deleteUser(id:number){
         if(this.users.has(id)){
             this.users.delete(id); 
-            this.counter--; }
+            this.counter--; 
+            return `User ${id} deleted sucessfully!`
+        }
         else console.log("User "+id+" does not exist in database!");
     }
       
     userLogin(body:any){
         var foundUser:User = this.searchEngine(body?.email,"email");
-        if (foundUser != null)return foundUser.login (body?.email,body?.password);
+        if (foundUser != null)return foundUser.login(body?.email,body?.password);
         else return "Email Not Found. Please try again.";
     }
     
