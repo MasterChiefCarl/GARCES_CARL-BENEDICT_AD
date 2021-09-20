@@ -14,7 +14,12 @@ export class User {
     }
 
     login(email:string, password:string){
-        //return true or false
+        
+        if (email == this.email && password == this.password)
+            return true;
+        else 
+            return false;
+
     }
 
     toJson(){
@@ -25,5 +30,7 @@ export class User {
             email: this.email
         }
     }
- 
+    log(){
+        console.log(`ID:${this.id}\nName:${this.name}\nAge:${this.age}\nEmail:${this.email}`);
+    }
 }
