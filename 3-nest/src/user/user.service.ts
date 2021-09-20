@@ -97,6 +97,24 @@ export class UserService {
         return null;
     }
 
+    specialReplaceUser(id:number, body:any){
+        var foundUser:User = this.searchEngine(id,"id");
+        if (foundUser == undefined || foundUser == null) return `ID ${id} not found. PLEASE CHECK AGAIN`;
+        else{
+            if (body?.email != undefined && body?.email != null)
+                foundUser.newEmail(body?.email);
+            if (body?.name != undefined && body?.name != null)
+                foundUser.newName(body?.name);
+            if (body?.password != undefined && body?.password != null)
+                foundUser.newPassword(body?.password);
+            if (body?.age != undefined && body?.age != null)
+                foundUser.newAge(body?.age);
+            this.users.set(id,foundUser);
+            this.logAllUsers();
+            return `User ${id} has been updated, successfully!`;
+        }
+
+    }
     
 }
     

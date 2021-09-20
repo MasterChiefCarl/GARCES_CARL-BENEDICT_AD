@@ -39,9 +39,15 @@ export class UserController {
         return this.userService.userLogin(body);
     }
 
-    @Get ('search/:term')
+    @Get ('/search/:term')
     globalSearch (@Param("term") term:string){
         return this.userService.globalSearch(term);
+    }
+
+    @Patch ('/:id')
+    specialReplaceUser (@Param("id") id:string, @Body() body:any){
+        var idNumber:number = parseInt(id);
+        return this.userService.specialReplaceUser(idNumber, body);
     }
 
 }

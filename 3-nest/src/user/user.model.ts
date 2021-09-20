@@ -34,4 +34,20 @@ export class User {
     log(){
         console.log(`ID:\t${this.id}\nName:\t${this.name}\nAge:\t${this.age}\nEmail:\t${this.email}`);
     }
+
+    newName(name:string){
+        this.name = name;
+    }
+
+    newAge(age:number){
+        this.age = age;
+    }
+    
+    newEmail(email:string){
+        this.email = email;
+    }
+
+    newPassword(password:string){
+        this.password = password;
+    }
 }
