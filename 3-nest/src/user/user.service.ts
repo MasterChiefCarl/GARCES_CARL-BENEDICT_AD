@@ -23,9 +23,9 @@ export class UserService {
 
     populate(){
         this.users.set(this.counter,new User(this.counter,"James",18,"james@email.com","123456")); this.counter++;
-        this.users.set(this.counter,new User(this.counter,"John",18,"john@email.com","143441")); this.counter++;
-        this.users.set(this.counter,new User(this.counter,"Luke",18,"luke@email.com","654321")); this.counter++;
-        this.users.set(this.counter,new User(this.counter,"Judas",13,"judas@email.com","696969")); this.counter++;
+        this.users.set(this.counter,new User(this.counter,"John",19,"john@email.com","143441")); this.counter++;
+        this.users.set(this.counter,new User(this.counter,"Luke",20,"luke@email.com","654321")); this.counter++;
+        this.users.set(this.counter,new User(this.counter,"Judas",21,"judas@email.com","696969")); this.counter++;
     }
     
     addUser(user:any){
@@ -59,12 +59,45 @@ export class UserService {
         this.logAllUsers();
       }
 
-      deleteUser(id:number){
-            if(this.users.has(id))
-            this.users.delete(id);
-            else console.log("User "+id+" does not exist in database!");
-          }
+    deleteUser(id:number){
+        if(this.users.has(id)){
+            this.users.delete(id); 
+            this.counter--; }
+        else console.log("User "+id+" does not exist in database!");
+    }
       
+    userLogin(body:any){
+        var foundUser:User = this.searchEngine(body?.email,"email");
+        if (foundUser != null)return foundUser.login (body?.email,body?.password);
+        else return "Email Not Found. Please try again.";
+    }
+    
+    
+
+    globalSearch(term:string){
+        var numTerm = parseInt(term);
+        if (this.searchEngine(numTerm,'id')==null){
+            if (this.searchEngine(term,'name')==null){
+                if(this.searchEngine(term,'email') == null){
+                    if (this.searchEngine(numTerm,'age')==null){
+                        return `Term \"${term}\"cannot be found all over the database`
+                    }else return this.searchEngine(numTerm,'age').toJson();
+                }else return this.searchEngine(term,'email').toJson();
+            }else return this.searchEngine(term,'name').toJson();
+        }else return this.searchEngine(numTerm,'id').toJson();
+    }
+    
+    searchEngine(request:any,condition:string)
+    {
+        for(const[key,user] of this.users.entries()){
+            if(user[condition] == request){
+            return user;
+            }
+        }
+        return null;
+    }
+
+    
 }
     
 

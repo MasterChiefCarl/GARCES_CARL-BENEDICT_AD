@@ -34,4 +34,14 @@ export class UserController {
         return this.userService.deleteUser(idNumber);
     }
 
+    @Post ('/login')
+    userLogin (@Body() body:any){
+        return this.userService.userLogin(body);
+    }
+
+    @Get ('search/:term')
+    globalSearch (@Param("term") term:string){
+        return this.userService.globalSearch(term);
+    }
+
 }
