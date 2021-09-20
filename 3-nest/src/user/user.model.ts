@@ -28,9 +28,10 @@ export class User {
             name:this.name,
             age: this.age,
             email: this.email
-        }
+        };
     }
+
     log(){
-        console.log(`ID:${this.id}\nName:${this.name}\nAge:${this.age}\nEmail:${this.email}`);
+        console.log(`ID:\t${this.id}\nName:\t${this.name}\nAge:\t${this.age}\nEmail:\t${this.email}`);
     }
 }

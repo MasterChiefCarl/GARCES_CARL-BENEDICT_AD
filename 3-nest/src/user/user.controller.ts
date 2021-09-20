@@ -6,14 +6,32 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private readonly userService:UserService){}
 
-    @Get("/all")
+    @Get('/all')
     getAll(){
         return this.userService.getAll();
     }
 
-    @Post("/register")
+    @Post('/register')
     createUser(@Body() body:any){
         return this.userService.addUser(body);
+    }
+
+    @Get ('/:id')
+    getUser(@Param("id") id:string){
+        var idNumber:number = parseInt(id);
+        return this.userService.getUser(idNumber);
+    }
+
+    @Put ('/:id')
+    replaceUser(@Param("id") id:string, @Body() body: any){
+        var idNumber:number = parseInt(id);
+        return this.userService.replaceUser(idNumber,body);
+    }
+
+    @Delete('/:id')
+    deleteUser(@Param("id") id:string){
+        var idNumber:number = parseInt(id);
+        return this.userService.deleteUser(idNumber);
     }
 
 }
