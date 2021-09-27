@@ -30,15 +30,30 @@ export class UserService {
     
     addUser(user:any){
         var newUser: User; 
+        var addUserStatus:string =``;
+        if (user?.name != null && user?.age != null && user?.email != null&&user?.password != null){
         newUser = new User (this.counter,user?.name,user?.age,user?.email,user?.password);
         if (this.counter <= this.LIMIT){
             this.users.set(this.counter, newUser);
             this.logAllUsers();
             this.counter++;
-            return `New user has been sucessfully added. Thank you for Registering!\nSlots Remaining:${this.counter}`;
+            addUserStatus=`New user has been sucessfully added. Thank you for Registering!\nSlots Remaining:${this.counter}`
+            return addUserStatus;
             }
-            else return `LIMIT REACHED!\nUser Registration has reached its LIMIT (${this.LIMIT}).\nPlease Contact Support for more info.`;
-         }
+            else {
+                addUserStatus =`LIMIT REACHED!\nUser Registration has reached its LIMIT (${this.LIMIT}).\nPlease Contact Support for more info.`
+                return addUserStatus;
+            }
+        }
+        else{
+            addUserStatus = "Error Replacement. NEED Necessary Inputs to replace..."
+            if(user?.name == null) addUserStatus += "\"name\"...";
+            if(user?.email == null) addUserStatus += "\"email\"...";
+            if(user?.password == null) addUserStatus += "\"password\"...";
+            if(user?.age == null) addUserStatus += "\"age\"...";
+            return addUserStatus;
+        }
+    }
 
 
     logAllUsers(){
@@ -54,9 +69,21 @@ export class UserService {
 
     replaceUser(id:number, user:any){
         var newUser: User; 
+        var replaceUserError: string ="Replace User "+ id +"Sucessfully";
+        if (user?.name != null && user?.age != null && user?.email != null&&user?.password != null){
         newUser = new User(id,user?.name,user?.age,user?.email,user?.password);
         this.users.set(id,newUser);
         this.logAllUsers();
+        return replaceUserError;
+        }
+        else {
+            replaceUserError = "Error Replacement. NEED Necessary Inputs to replace..."
+            if(user?.name == null) replaceUserError += "\"name\"...";
+            if(user?.email == null) replaceUserError += "\"email\"...";
+            if(user?.password == null) replaceUserError += "\"password\"...";
+            if(user?.age == null) replaceUserError += "\"age\"...";
+            return replaceUserError;
+        }
       }
 
     deleteUser(id:number){
