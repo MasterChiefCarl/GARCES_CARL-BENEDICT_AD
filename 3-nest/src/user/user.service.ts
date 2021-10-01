@@ -1,94 +1,26 @@
 import { Injectable } from '@nestjs/common';
+import { CRUDReturn } from './crud_return.interface';
+import { Helper } from './helper';
 import { User } from './user.model';
+
 
 @Injectable()
 export class UserService {
 
-    private users: Map<number,User> = new Map<number,User>();
-    private counter:number = 1;
-    private LIMIT: number = 20;
+    private users: Map<string,User>= new Map<string, User>();;
 
     constructor(){
-        this.populate();
+        this.users = Helper.populate();
+        this.logAllUsers();
     }
 
-    getAll(){
-       var populatedData = [];
-       for(const user of this.users.values()){
-           populatedData.push(user.toJson());
-           user.log();
-       }
-       return populatedData;
-    }
-
-    populate(){
-        this.users.set(this.counter,new User(this.counter,"James",18,"james@email.com","123456")); this.counter++;
-        this.users.set(this.counter,new User(this.counter,"John",19,"john@email.com","143441")); this.counter++;
-        this.users.set(this.counter,new User(this.counter,"Luke",20,"luke@email.com","654321")); this.counter++;
-        this.users.set(this.counter,new User(this.counter,"Judas",21,"judas@email.com","696969")); this.counter++;
-    }
-    
-    addUser(user:any){
-        var newUser: User; 
-        newUser = new User (this.counter,user?.name,user?.age,user?.email,user?.password);
-        if (this.counter <= this.LIMIT){
-            this.users.set(this.counter, newUser);
-            this.logAllUsers();
-            this.counter++;
-            return `New user has been sucessfully added. Thank you for Registering!\nSlots Remaining:${this.counter}`;
-            }
-            else return `LIMIT REACHED!\nUser Registration has reached its LIMIT (${this.LIMIT}).\nPlease Contact Support for more info.`;
-         }
-
-
+    //console/internal workflow
     logAllUsers(){
         for(const [key,user] of this.users.entries()){
           console.log(key);
           user.log();
         }
     }
-
-    getUser(id:number){
-        return this.users.get(id).toJson();
-    }
-
-    replaceUser(id:number, user:any){
-        var newUser: User; 
-        newUser = new User(id,user?.name,user?.age,user?.email,user?.password);
-        this.users.set(id,newUser);
-        this.logAllUsers();
-      }
-
-    deleteUser(id:number){
-        if(this.users.has(id)){
-            this.users.delete(id); 
-            this.counter--; 
-            return `User ${id} deleted sucessfully!`
-        }
-        else console.log("User "+id+" does not exist in database!");
-    }
-      
-    userLogin(body:any){
-        var foundUser:User = this.searchEngine(body?.email,"email");
-        if (foundUser != null)return foundUser.login(body?.email,body?.password);
-        else return "Email Not Found. Please try again.";
-    }
-    
-    
-
-    globalSearch(term:string){
-        var numTerm = parseInt(term);
-        if (this.searchEngine(numTerm,'id')==null){
-            if (this.searchEngine(term,'name')==null){
-                if(this.searchEngine(term,'email') == null){
-                    if (this.searchEngine(numTerm,'age')==null){
-                        return `Term \"${term}\"cannot be found all over the database`
-                    }else return this.searchEngine(numTerm,'age').toJson();
-                }else return this.searchEngine(term,'email').toJson();
-            }else return this.searchEngine(term,'name').toJson();
-        }else return this.searchEngine(numTerm,'id').toJson();
-    }
-    
     searchEngine(request:any,condition:string)
     {
         for(const[key,user] of this.users.entries()){
@@ -99,26 +31,135 @@ export class UserService {
         return null;
     }
 
-    specialReplaceUser(id:number, body:any){
-        var foundUser:User = this.searchEngine(id,"id");
-        if (foundUser == undefined || foundUser == null) return `ID ${id} not found. PLEASE CHECK AGAIN`;
-        else{
-            if (body?.email != undefined && body?.email != null)
-                foundUser.newEmail(body?.email);
-            if (body?.name != undefined && body?.name != null)
-                foundUser.newName(body?.name);
-            if (body?.password != undefined && body?.password != null)
-                foundUser.newPassword(body?.password);
-            if (body?.age != undefined && body?.age != null)
-                foundUser.newAge(body?.age);
-            this.users.set(id,foundUser);
-            this.logAllUsers();
-            return `User ${id} has been updated, successfully!`;
-        }
 
+
+    //injectible workflow
+    getAll(): CRUDReturn{
+       var populatedData = [];
+       for(const user of this.users.values()){
+           populatedData.push(user.toJson());
+           user.log();
+       }
+       return {success:true , data:populatedData};
     }
     
+    
+    addUser(body:any): CRUDReturn{
+        var bodyCheck:CRUDReturn = Helper.validBodyPut(body);
+        var newUser:User;
+
+        if (bodyCheck.success == true){
+                for (const user of this.users.values()){ 
+                    if (user.getEmail() === body?.email)
+                    return {success:false, data:"Email exist in database. Only one account per email is allowed"};
+                }
+                newUser = new User (body?.name, body?.age, body?.email, body?.password);
+                this.users.set (newUser.getID(), newUser);
+                return {success:true, data: newUser.toJson()}
+            }
+        
+        else return Helper.validBodyPut(body);
+    }
+
+
+    
+
+    getUser(id:string): CRUDReturn{
+        for (const user of this.users.values()){ 
+            if (user.getID() === id)
+            return {success:true, data:user.toJson()};
+        }
+        return {success:false, data:"ID does not exist in database. Please try again."};
+    }
+
+
+    replaceUser(id:string, body:any):CRUDReturn{
+        var bodyCheck:CRUDReturn = Helper.validBodyPut(body);
+        var isUserFound: User = this.searchEngine(id,"id")
+        var newUser:User;
+
+        
+        if (isUserFound!=null){
+            if (bodyCheck.success == true){
+                for (const user of this.users.values()){ 
+                    if (user.getEmail() == body?.email || user.getEmail() != user.getEmail())
+                    return {success:false, data:"Email exist in database. Only one account per email is allowed"};
+                }
+                newUser = new User (body?.name, body?.age, body?.email, body?.password);
+                this.users.set (newUser.getID(), newUser);
+                return {success:true, data: newUser.toJson()}
+            }
+            else return bodyCheck;
+        }
+        else return {success:false, data:`ID User: ${id} is not found in the database`};
+    }
+
+    
+
+    deleteUser(id:string):CRUDReturn{
+        var isUserFound: User = this.searchEngine(id,"id")
+
+        if(isUserFound != null){
+                this.users.delete(id); 
+                return {success: true, data:`User ${id} deleted sucessfully!`};
+        }
+        return {success:false, data:`ID ${id} does not exist in database. Please try again.`};
+    }  
+
+
+    userLogin(login:any): CRUDReturn{
+        var foundUser:User = this.searchEngine(login?.email,"email");
+        if (foundUser != null)return foundUser.login(login?.password);
+        else return {success:false, data:"Email Not Found. Please try again."};
+    }
+    
+    
+
+    globalSearch(term:string): CRUDReturn{
+        var numTerm = parseInt(term);
+        if (this.searchEngine(numTerm,'id')==null){
+            if (this.searchEngine(term,'name')==null){
+                if(this.searchEngine(term,'email') == null){
+                    if (this.searchEngine(numTerm,'age')==null){
+                        return {success:false,data:"Term: \""+term+"does not exist in the database"};
+                    }else return {success:true, data:this.searchEngine(numTerm,'age').toJson()}; 
+                }else return {success:true, data:this.searchEngine(term,'email').toJson()};
+            }else return {success:true, data:this.searchEngine(term,'name').toJson()};
+        }else return {success:true, data:this.searchEngine(numTerm,'id').toJson()};
+    }
+    
+    
+    specialReplaceUser(id:string, body:any){
+        
+        var bodyCheck:CRUDReturn = Helper.validBody(body);
+        var isUserFound: User = this.searchEngine(id,"id")
+
+        
+        if (isUserFound!=null){
+            if (bodyCheck.success == true){
+                for (const user of this.users.values()){ 
+                    if (user.getEmail() === body?.email && user.getEmail() !== isUserFound.getEmail())
+                    return {success:false, data:"Email exist in database. Only one account per email is allowed"};
+                }
+                if (body?.email != undefined && body?.email != null)
+                isUserFound.newEmail(body?.email);
+                if (body?.name != undefined && body?.name != null)
+                isUserFound.newName(body?.name);
+                if (body?.password != undefined && body?.password != null)
+                isUserFound.newPassword(body?.password);
+                if (body?.age != undefined && body?.age != null)
+                isUserFound.newAge(body?.age);
+                this.users.set(id,isUserFound);
+                this.logAllUsers();
+                return {success:true, data: isUserFound.toJson()}
+            }
+            else return bodyCheck;
+        }
+        else return {success:false, data:`ID User: ${id} is not found in the database`};
+    }
+
 }
     
 
+    
 
