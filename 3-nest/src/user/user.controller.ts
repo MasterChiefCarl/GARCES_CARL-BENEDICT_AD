@@ -1,5 +1,4 @@
 import { Controller, Get , Post, Put, Patch, Delete,Body, Param  } from '@nestjs/common';
-
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -18,20 +17,17 @@ export class UserController {
 
     @Get ('/:id')
     getUser(@Param("id") id:string){
-        var idNumber:number = parseInt(id);
-        return this.userService.getUser(idNumber);
+        return this.userService.getUser(id);
     }
 
     @Put ('/:id')
     replaceUser(@Param("id") id:string, @Body() body: any){
-        var idNumber:number = parseInt(id);
-        return this.userService.replaceUser(idNumber,body);
+        return this.userService.replaceUser(id,body);
     }
 
     @Delete('/:id')
-    deleteUser(@Param("id") id:string){
-        var idNumber:number = parseInt(id);
-        return this.userService.deleteUser(idNumber);
+    deleteUser(@Param("id") id:string, @Body() body:any){
+        return this.userService.deleteUser(id,body);
     }
 
     @Post ('/login')
@@ -46,8 +42,8 @@ export class UserController {
 
     @Patch ('/:id')
     specialReplaceUser (@Param("id") id:string, @Body() body:any){
-        var idNumber:number = parseInt(id);
-        return this.userService.specialReplaceUser(idNumber, body);
+
+        return this.userService.specialReplaceUser(id, body);
     }
 
 }
