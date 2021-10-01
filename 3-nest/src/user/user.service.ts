@@ -96,16 +96,12 @@ export class UserService {
 
     
 
-    deleteUser(id:string, verlogin:any):CRUDReturn{
+    deleteUser(id:string):CRUDReturn{
         var isUserFound: User = this.searchEngine(id,"id")
 
-        if(isUserFound=null){
-            if(verlogin?.email==isUserFound.getEmail()){
-                if (isUserFound.login(verlogin?.password).success==true){
-                    this.users.delete(id); return {success: true, data:`User ${id} deleted sucessfully!`};
-                }else return isUserFound.login(verlogin?.password)
-            }
-            else return {success:false, data: "Incorrect Email. Please try again."}
+        if(isUserFound != null){
+                this.users.delete(id); 
+                return {success: true, data:`User ${id} deleted sucessfully!`};
         }
         return {success:false, data:`ID ${id} does not exist in database. Please try again.`};
     }  
@@ -142,7 +138,7 @@ export class UserService {
         if (isUserFound!=null){
             if (bodyCheck.success == true){
                 for (const user of this.users.values()){ 
-                    if (user.getEmail() == body?.email && user.getEmail() != user.getEmail() )
+                    if (user.getEmail() === body?.email && user.getEmail() !== isUserFound.getEmail())
                     return {success:false, data:"Email exist in database. Only one account per email is allowed"};
                 }
                 if (body?.email != undefined && body?.email != null)

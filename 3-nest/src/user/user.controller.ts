@@ -26,8 +26,8 @@ export class UserController {
     }
 
     @Delete('/:id')
-    deleteUser(@Param("id") id:string, @Body() body:any){
-        return this.userService.deleteUser(id,body);
+    deleteUser(@Param("id") id:string){
+        return this.userService.deleteUser(id);
     }
 
     @Post ('/login')
