@@ -2,13 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { CRUDReturn } from './crud_return.interface';
 import { Helper } from './helper';
 import { User } from './user.model';
+import * as admin from 'firebase-admin';
+
+const DEBUG: boolean = true;
 
 
 @Injectable()
 export class UserService {
 
     private users: Map<string,User>= new Map<string, User>();;
-
+    private DB = admin.firestore();
+    
     constructor(){
         this.users = Helper.populate();
         this.logAllUsers();
@@ -54,7 +58,8 @@ export class UserService {
                     return {success:false, data:"Email exist in database. Only one account per email is allowed"};
                 }
                 newUser = new User (body?.name, body?.age, body?.email, body?.password);
-                this.users.set (newUser.getID(), newUser);
+                this.saveToDB(newUser);
+                this.users.set(newUser.getID(), newUser); // to be removed                
                 return {success:true, data: newUser.toJson()}
             }
         
@@ -158,8 +163,20 @@ export class UserService {
         else return {success:false, data:`ID User: ${id} is not found in the database`};
     }
 
+
+    
+
+    
+
+saveToDB (user:User): boolean{
+    try {
+        var statReturn = this.DB.collection("users").doc(user.getID()).set(user.toJson());
+        console.log(statReturn);
+        this.users.set (user.getID(),user);
+        return this.users.has(user.getID());
+    }catch (error){
+        console.log(error);
+        return false;
+        }
+    }
 }
-    
-
-    
-
