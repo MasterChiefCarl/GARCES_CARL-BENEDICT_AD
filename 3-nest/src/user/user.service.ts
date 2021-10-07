@@ -58,8 +58,7 @@ export class UserService {
                     return {success:false, data:"Email exist in database. Only one account per email is allowed"};
                 }
                 newUser = new User (body?.name, body?.age, body?.email, body?.password);
-                this.saveToDB(newUser);
-                this.users.set(newUser.getID(), newUser); // to be removed                
+                this.saveToDB(newUser);               
                 return {success:true, data: newUser.toJson()}
             }
         
@@ -69,12 +68,33 @@ export class UserService {
 
     
 
-    getUser(id:string): CRUDReturn{
-        for (const user of this.users.values()){ 
-            if (user.getID() === id)
-            return {success:true, data:user.toJson()};
+    async getUser(id:string): Promise<CRUDReturn>{
+        
+        
+        try{
+           var result = await this.DB.collection("users")
+            .doc(id)
+            .get();
+        if (result.exists)
+            return {
+                success: true, 
+                data: result.data(),
+            }
+        else 
+            return {
+                success:false, 
+                data:`User ${id} does not exist in database`,
+            }
+        }catch(error){
+            console.log(error);
+            return{success:false, data: error}
         }
-        return {success:false, data:"ID does not exist in database. Please try again."};
+    
+        // for (const user of this.users.values()){ 
+        //     if (user.getID() === id)
+        //     return {success:true, data:user.toJson()};
+        // }
+        // return {success:false, data:"ID does not exist in database. Please try again."};
     }
 
 
