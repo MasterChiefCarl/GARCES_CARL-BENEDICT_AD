@@ -38,13 +38,28 @@ export class UserService {
 
 
     //injectible workflow
-    getAll(): CRUDReturn{
-       var populatedData = [];
-       for(const user of this.users.values()){
-           populatedData.push(user.toJson());
-           user.log();
+    async getAll(): Promise<CRUDReturn>{
+       var populatedData:Array<any> = [];
+       try{
+            var dbData:FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData> = 
+            await this.DB.collection("users").get();
+            dbData.forEach((doc=>{
+                if (doc.exists){
+                    populatedData.push(doc.data());
+                }
+            }))
+            return {success:true , data:populatedData};
+       }catch (e){
+           return {success:false, data: e}
        }
-       return {success:true , data:populatedData};
+    
+    // Original Function
+    //    var populatedData = [];
+    //    for(const user of this.users.values()){
+    //        populatedData.push(user.toJson());
+    //        user.log();
+    //    }
+    //    return {success:true , data:populatedData};
     }
     
     
@@ -53,16 +68,20 @@ export class UserService {
         var newUser:User;
 
         if (bodyCheck.success == true){
-                for (const user of this.users.values()){ 
-                    if (user.getEmail() === body?.email)
-                    return {success:false, data:"Email exist in database. Only one account per email is allowed"};
-                }
+                
+            
+                // email verifier: local edition
+                // for (const user of this.users.values()){ 
+                //     if (user.getEmail() === body?.email)
+                //     return {success:false, data:"Email exist in database. Only one account per email is allowed"};
+                // }
                 newUser = new User (body?.name, body?.age, body?.email, body?.password);
-                this.saveToDB(newUser);               
+                this.saveToDB(newUser);        
+                // this.users.set (user.getID(),user); //saves to offline DB *MOVED IN TO this.saveToDB(newUser) function above      
                 return {success:true, data: newUser.toJson()}
             }
         
-        else return Helper.validBodyPut(body);
+        else return bodyCheck;
     }
 
 
@@ -89,7 +108,8 @@ export class UserService {
             console.log(error);
             return{success:false, data: error}
         }
-    
+        // Old geUser Code
+        //
         // for (const user of this.users.values()){ 
         //     if (user.getID() === id)
         //     return {success:true, data:user.toJson()};
@@ -106,10 +126,12 @@ export class UserService {
         
         if (isUserFound!=null){
             if (bodyCheck.success == true){
-                for (const user of this.users.values()){ 
-                    if (user.getEmail() == body?.email || user.getEmail() != user.getEmail())
-                    return {success:false, data:"Email exist in database. Only one account per email is allowed"};
-                }
+                if (this.notSameEmailDB(body?.email).success == true )
+                
+                // for (const user of this.users.values()){ 
+                //     if (user.getEmail() == body?.email || user.getEmail() != user.getEmail())
+                //     return {success:false, data:"Email exist in database. Only one account per email is allowed"};
+                // }
                 newUser = new User (body?.name, body?.age, body?.email, body?.password);
                 this.users.set (newUser.getID(), newUser);
                 return {success:true, data: newUser.toJson()}
@@ -190,13 +212,32 @@ export class UserService {
 
 saveToDB (user:User): boolean{
     try {
-        var statReturn = this.DB.collection("users").doc(user.getID()).set(user.toJson());
-        console.log(statReturn);
-        this.users.set (user.getID(),user);
+        var statReturn =  this.DB.collection("users").doc(user.getID()).set(user.toJson()); //saves to online DB
+        console.log(statReturn); //returns promise status 
+        this.users.set (user.getID(),user); //saves to offline DB
         return this.users.has(user.getID());
     }catch (error){
         console.log(error);
         return false;
         }
     }
+// saveToDB with async-Promise function
+// async saveToDB (user:User): Promise<boolean>{
+//     try {
+//         var statReturn = await this.DB.collection("users").doc(user.getID()).set(user.toJson());
+//         console.log(statReturn);
+//         this.users.set (user.getID(),user);
+//         return this.users.has(user.getID());
+//     }catch (error){
+//         console.log(error);
+//         return false;
+//         }
+//     }
+// }
+
+notSameEmailDB (email:string):CRUDReturn{
+    
+    
+    return {success:false,data:email};
+}
 }
