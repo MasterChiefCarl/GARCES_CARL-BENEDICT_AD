@@ -63,6 +63,19 @@ export class User {
       return { success: false, data: e };
     }
   }
+  replaceValues(body: any): boolean {
+    try {
+      var keys: Array<string> = Helper.describeClass(User);
+      keys = Helper.removeItemOnce(keys, 'id');
+      for (const key of Object.keys(body)) {
+        this[key] = body[key];
+      }
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
 
   matches(term: string): boolean {
     var keys: Array<string> = Helper.describeClass(User);

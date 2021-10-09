@@ -1,6 +1,6 @@
 export interface CRUDReturn {
-    "success": boolean,
-    "data": any
+    success: boolean,
+    data: any,
 }
 
 // replaceUser(id:number, user:any){
@@ -181,3 +181,25 @@ export interface CRUDReturn {
     //         return { success: false, data: `ERROR HIT MESSAGE: ${e}` };
     //     }
     // }
+
+    /*
+        try {
+            var result = await this.DB.collection("users")
+                .doc(id)
+                .get();
+            if (result.exists)
+                return {
+                    success: true,
+                    data: result.data(),
+                };
+            else
+                return {
+                    success: false,
+                    data: `User ${id} does not exist in database`,
+                };
+        } catch (error) {
+            console.log(error);
+            return { success: false, data: error };
+        }
+        async getUser(id: string): Promise<CRUDReturn> {
+        */

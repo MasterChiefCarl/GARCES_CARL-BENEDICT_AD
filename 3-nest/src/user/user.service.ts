@@ -72,61 +72,48 @@ export class UserService {
                     data['password'],
                     doc.id);
                 if (userSearch.matches(term))
-                    return { success: true, data: userSearch.toJson() };
+                    return { success: true, data: userSearch.toJsonID() };
 
             } return { success: false, data: "Term: '" + term + "' does not exist in the database" };
         } catch (e) {
             return { success: false, data: e };
         }
-
-        //     try{
-        //     var numTerm = parseInt(term);
-        //     if (await this.searchEngine(term, "id") == null) {
-        //         if (await this.searchEngine(term, "name") == null) {
-        //             if (await this.searchEngine(term, "email") == null) {
-        //                 if (await this.searchEngine(numTerm, "age") == null) {
-        //                     return { success: false, data: "Term: '" + term + "' does not exist in the database" };
-        //                 } else return { success: true, data: (await this.searchEngine(numTerm, "age")).toJson() };
-        //             } else return { success: true, data: (await this.searchEngine(term, "email")).toJson() };
-        //         } else return { success: true, data: (await this.searchEngine(term, "name")).toJson() };
-        //     } else return { success: true, data: (await this.searchEngine(term, "id")).toJson()} ;
-        // }catch (error){
-        //     return {success: false, data: `ERROR CAUGHT ${error}`};
-        // }
     }//Somehow ok? // nope, OLD CODE release error in releasing input 
 
-    async emailExists(email: string, options?: { exceptionID: string }): Promise<boolean> {
+    async emailExists(email: string, options?: { exceptionId: string }): Promise<boolean> {
         try {
-        var userResults: FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData> =
-            await this.DB.collection("users").where ("email", "==", email)
-            .get();
-            console.log("Are the results empty?")
-            console.log(userResults.empty); if (userResults.empty) return false;
-        for (const doc of userResults.docs) {
-            console.log(doc.data());
-            console.log("Are all the options defined?");
-            console.log(options != undefined);
-            if(options != undefined){
-                if (doc.id == options?.exceptionID) continue;
+            var userResults = await this.DB.collection("users").where("email", "==", email).get();
+            console.log("Are the user results empty? ");
+            console.log(userResults.empty);
+            if (userResults.empty) return false;
+            for (const doc of userResults.docs) {
+                console.log(doc.data());
+                console.log("Are the options defined?");
+                console.log(options != undefined);
+                if (options != undefined) {
+                    if (doc.id == options?.exceptionId) continue;
+                }
+                if (doc.data()["email"] === email) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            if(doc.data()["email"] === email){
-                return true;
-            }else{ 
-                return false;
-            }
-        }return false;
-    }catch(e){
-        console.log("Email exists subfunction error")
-        console.log(e.message);
-        return false;
-    }
+        } catch (e) {
+            console.log("Email exists subfunction error");
+            console.log(e.message);
+            return false;
+        }
     }
 
+
     async saveToDB(user: User): Promise<boolean> {
-        console.log( `attempting to save user ${user.getID()} ${user.getEmail()}`)
+        console.log(`attempting to save user ${user.getID()} ${user.getEmail()}`)
         try {
             var result = (await user.commit(false));
-            return result.success;
+            if (result.success)
+            return true;
+            else new Error ("somthing is not right")
         } catch (error) {
             console.log("save to db error")
             console.log(error);
@@ -175,194 +162,101 @@ export class UserService {
         // Original Function
         //    var populatedData = [];
         //    for(const user of this.users.values()){
-        //        populatedData.push(user.toJson());
+        //        populatedData.push(user.toJsonID());
         //        user.log();
         //    }
         //    return {success:true , data:populatedData};
-    }OK
+    }//OK
 
 
     async addUser(body: any): Promise<CRUDReturn> {
         try {
-            var validBody: CRUDReturn = Helper.validBodyPut(body);
-            var newUser: User = new User(
-                body.name,
-                body.age,
-                body.email,
-                body.password,
-            );
-
+            var validBody: CRUDReturn =
+                Helper.validBodyPut(body);
             if (validBody.success) {
-                if (!(this.emailExists(body?.email))) {
-                
-                    if (await this.saveToDB(newUser)) {
+                if (!(await this.emailExists(body.email))) {
+                    var newUser: User = new User(
+                        body.name,
+                        body.age,
+                        body.email,
+                        body.password,
+                    );
+                    if (this.saveToDB(newUser)) {
                         if (DEBUG) this.logAllUsers();
                         return {
                             success: true,
-                            data: newUser.toJson()
+                            data: newUser.toJsonID(),
                         };
-                    } else throw new Error("generic database error");
-                } else {
-                    return { "success": false, "data": 'INVALID EMAIL' }
-                }
-            } else
+                    } else {
+                        throw new Error('generic database error');
+                    }
+                } else
+                    throw new Error(`${body.email} is already in use by another user!`);
+            } else {
                 throw new Error(validBody.data);
+            }
         } catch (error) {
             console.log(error.message);
-            return { success: false, data: `error adding account, ${error.message}` };
+            return { success: false, data: `Error adding account, ${error.message}` };
         }
     }
 
     async getUser(id: string): Promise<CRUDReturn> {
         try {
-
             var result = await this.DB.collection("users")
                 .doc(id)
                 .get();
             if (result.exists) {
                 var data = result.data();
-                return {
-                    success: true,
-                    data: new User(
-                        data['name'],
-                        data['age'],
-                        data['email'],
-                        data['password'],
-                        result.id).toJson()
-                };
+                var userSearch = new User(
+                    data['name'],
+                    data['age'],
+                    data['email'],
+                    data['password'],
+                    result.id);
+
+                return { success: true, data: userSearch.toJsonID() };
             } else
                 return {
                     success: false,
-                    data: `User ${id} does not exist in database`,
+                    data: `User ${id} does not exist in database!` ,
                 };
-        } catch (error) {
-            console.log(error);
-            return { success: false, data: `DATA ERROR MESSAGE: ${error}` };
+        } catch (e) {
+            return { success: false, data: `ERROR MESSAGE: ${e}` };
         }
-        /*
-        try {
-            var result = await this.DB.collection("users")
-                .doc(id)
-                .get();
-            if (result.exists)
-                return {
-                    success: true,
-                    data: result.data(),
-                };
-            else
-                return {
-                    success: false,
-                    data: `User ${id} does not exist in database`,
-                };
-        } catch (error) {
-            console.log(error);
-            return { success: false, data: error };
-        }
-        async getUser(id: string): Promise<CRUDReturn> {
-        */
     }
+
+
 
     async replaceUser(id: string, body: any): Promise<CRUDReturn> {
-
-        var bodyCheck: CRUDReturn = Helper.validBodyPut(body);
-        var isUserFound: User = (await this.searchEngine(id, "id")).data;
-
-        if (isUserFound != null) {
-            if (bodyCheck.success == true) {
-                if (!await this.emailExists(body?.email, { exceptionID: id })) {
-                    var newUser: User;
-                    // for (const user of this.users.values()){ 
-                    //     if (user.getEmail() == body?.email || user.getEmail() != user.getEmail())
-                    //     return {success:false, data:"Email exist in database. Only one account per email is allowed"};
-                    // }
-                    newUser = new User(body?.name, body?.age, body?.email, body?.password);
-                    newUser.fixID(id); this.saveToDB(newUser);
-                    return { success: true, data: newUser.toJson() }
-                } else return { success: false, data: `${body.email} is already in use by another user!` }
-            }
-            else return bodyCheck;
-        }
-        else return { success: false, data: `ID User: ${id} is not found in the database` };
-        //     try {
-        //         if (this.users.has(id)) {
-        //             var validBody: CRUDReturn =
-        //                 Helper.validBodyPut(body);
-        //             if (validBody.success) {
-        //                 if (!this.emailExists(body.email, { exceptionID: id })) {
-        //                     var user: User = (await this.getUser(id).data.user);
-        //                     var success = await this.saveToDB()
-        //                     if (success)
-        //                         return {
-        //                             success: success,
-        //                             data: user.toJson(),
-        //                         };
-        //                     else {
-        //                         throw new Error('Failed to update user in db');
-        //                     }
-        //                 } else {
-        //                     throw new Error(`${body.email} is already in use by another user!`);
-        //                 }
-        //             } else {
-        //                 throw new Error(validBodyPut.data);
-        //             }
-        //         } else {
-        //             throw new Error(`User ${id} is not in database`);
-        //         }
-        //     } catch (error) {
-        //         return {
-        //             success: false,
-        //             data: error.message,
-        //         };
-        //     }
-        // }
-    }
-
-    async deleteUser(id: string): Promise<CRUDReturn> {
-        var isUserFound: User = (await this.searchEngine(id, "id")).data;
-
-        if (isUserFound != null) {
-            await this.DB.collection("users").doc(id).delete();
-            return { success: true, data: `User ${id} deleted sucessfully!` };
-        }
-        return { success: false, data: `ID ${id} does not exist in database. Please try again.` };
-    }
-
-
-    async userLogin(login: any): Promise<CRUDReturn> {
-        var foundUser: User = ((await this.searchEngine(login?.email, "email")).data);
-        if (foundUser != null) return foundUser.login(login?.password);
-        else return { success: false, data: "Email Not Found. Please try again." };
-    }
-
-
-    async specialReplaceUser(id: string, body: any) {
 
         try {
             var result = await this.DB.collection("users")
                 .doc(id)
                 .get();
             if (result.exists) {
+                var data = result.data();
+                var userSearch = new User(
+                    data['name'],
+                    data['age'],
+                    data['email'],
+                    data['password'],
+                    result.id);
                 var validBodyPut: CRUDReturn =
                     Helper.validBodyPut(body);
                 if (validBodyPut.success) {
-                    if (!this.emailExists(body.email, { exceptionID: id })) {
-                        var newUser: User = new User(
-                            result['name'],
-                            result['age'],
-                            result['email'],
-                            result['password'],
-                            result.id);
-
-                        if (body?.email != undefined && body?.email != null)
-                            newUser.newEmail
-                        if (body?.name != undefined && body?.name != null)
-                            newUser.newName(body?.name);
-                        if (body?.password != undefined && body?.password != null)
-                            newUser.newPassword(body?.password);
-                        if (body?.age != undefined && body?.age != null)
-                            newUser.newAge(body?.age);
-                        newUser.fixID(id); this.saveToDB(newUser);
-                        return { success: true, data: newUser.toJson() };
+                    if (!await this.emailExists(userSearch.getEmail(), { exceptionId: id })) {
+                        var user: User = userSearch;
+                        user.replaceValues(body);
+                        var success = this.saveToDB(user);
+                        if (success)
+                            return {
+                                success: true,
+                                data: user.toJsonID(),
+                            };
+                        else {
+                            throw new Error('Failed to update user in db');
+                        }
                     } else {
                         throw new Error(`${body.email} is already in use by another user!`);
                     }
@@ -379,6 +273,88 @@ export class UserService {
             };
         }
     }
+
+    async deleteUser(id: string): Promise<CRUDReturn> {
+        var isUserFound: User = (await this.searchEngine(id, "id")).data;
+
+        if (isUserFound != null) {
+            await this.DB.collection("users").doc(id).delete();
+            return { success: true, data: `User ${id} deleted sucessfully!` };
+        }
+        return { success: false, data: `ID ${id} does not exist in database. Please try again.` };
+    }
+
+
+    async userLogin(login: any): Promise<CRUDReturn> {
+        try {
+            var dbData: FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData> =
+                await this.DB.collection("users").get();
+
+            for (const doc of dbData.docs) {
+                var data = doc.data();
+                var userSearch = new User(
+                    data['name'],
+                    data['age'],
+                    data['email'],
+                    data['password'],
+                    doc.id);
+                if (userSearch.getEmail() === login?.email) {
+                    var foundUser: User = userSearch;
+                    if (foundUser != null) return foundUser.login(login?.password);
+                }
+            } return { success: false, data: "Email Not Found. Please try again." };
+        } catch (e) {
+            console.log(`ERROR MESSAGE: ${e.message}`);
+            return { success: false, data: `ERROR MESSAGE: ${e.message}` };
+        }
+    }
+
+
+    async specialReplaceUser(id: string, body: any) {
+        try {
+            var result = await this.DB.collection("users")
+                .doc(id)
+                .get();
+            if (result.exists) {
+                var data = result.data();
+                var userSearch = new User(
+                    data['name'],
+                    data['age'],
+                    data['email'],
+                    data['password'],
+                    result.id);
+                var validBodyPatch: CRUDReturn =
+                    Helper.validBody(body);
+                if (validBodyPatch.success) {
+                    if (!await this.emailExists(userSearch.getEmail(), { exceptionId: userSearch.getID() })) {
+                        var user: User = userSearch;
+                        user.replaceValues(body);
+                        var success = this.saveToDB(user);
+                        if (success)
+                            return {
+                                success: true,
+                                data: user.toJsonID(),
+                            };
+                        else {
+                            throw new Error('Failed to update user in db');
+                        }
+                    } else {
+                        throw new Error(`${body.email} is already in use by another user!`);
+                    }
+                } else {
+                    throw new Error(validBodyPatch.data);
+                }
+            } else {
+                throw new Error(`User ${id} is not in database`);
+            }
+        } catch (error) {
+            return {
+                success: false,
+                data: error.message,
+            };
+        }
+    }
+
 
 
 
