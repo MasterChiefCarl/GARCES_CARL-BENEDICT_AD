@@ -43,13 +43,19 @@ export class User {
     }
 
   }
-  async commit(): Promise<CRUDReturn> {
+  async commit(commit:boolean): Promise<CRUDReturn> {
     try {
       var DB = admin.firestore();
       var result = await DB.collection("users").doc(this.id).set(this.toJsonFull())
-      return {
+      if(commit==true) {
+        return {
+          success: true,
+          data: this.toJsonFull()
+        };
+      }
+      if(commit = false) return {
         success: true,
-        data: this.toJsonID()
+        data: this.toJson()
       };
     }
     catch (e) {
@@ -81,6 +87,7 @@ export class User {
 
   toJsonFull() {
     return {
+      id: this.id,
       name: this.name,
       age: this.age,
       email: this.email,
@@ -139,11 +146,9 @@ export class User {
   newAge(age: number) {
     this.age = age;
   }
-
   newEmail(email: string) {
     this.email = email;
   }
-
   newPassword(password: string) {
     this.password = password;
   }
