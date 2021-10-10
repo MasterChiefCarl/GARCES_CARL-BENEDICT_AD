@@ -38,7 +38,7 @@ export class User {
           result.id);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
       return null;
     }
 
@@ -53,13 +53,13 @@ export class User {
           data: this.toJsonFull()
         };
       }
-      if(commit = false) return {
+      if(commit == false) return {
         success: true,
-        data: this.toJson()
+        data: this.toJsonID()
       };
     }
     catch (e) {
-      console.log(e)
+      console.log(e);
       return { success: false, data: e };
     }
   }

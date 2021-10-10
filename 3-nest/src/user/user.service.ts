@@ -111,8 +111,9 @@ export class UserService {
         console.log(`attempting to save user ${user.getID()} ${user.getEmail()}`)
         try {
             var result = (await user.commit(false));
+            if (result!= null)
             if (result.success)
-            return true;
+            return true;else return false;
             else new Error ("somthing is not right")
         } catch (error) {
             console.log("save to db error")
