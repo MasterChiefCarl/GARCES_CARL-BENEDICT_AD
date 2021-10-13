@@ -1,0 +1,37 @@
+<p>login works!</p>
+<div class="maincontent">
+    <div class="login">
+        <div class="inputs">
+            <!--Place label and inputs box for email -->
+
+            <label for="EMAIL">Email</label>
+            <input type="email" name="EMAIL" #email/>
+
+            <!--Place label and inputs box for password -->
+
+            <label for="PASSWORD">Password</label>
+            <input type="password" name="PASSWORD" #password/>
+
+        </div>
+        <div class="button">
+            <button type="button" class="btn btn-success" (click)="login(email.value,password.value)">LOGIN</button>
+        </div>
+        <div>
+            <h3>{{userCredential1}}</h3>
+            <h3>{{userCredential2}}</h3>
+        </div>
+        <div *ngIf="userCredential1.length >= 5">
+            "Username has greater or equal to 5"
+        </div>
+        <div *ngIf="userCredential1.length < 5">
+            "Username has less than or equal to 5"
+        </div>
+        <div *ngFor="user; of: users; let i = index">
+            <h1>{{users[i].username }}</h1>
+            <h2>{{users[i].password}}</h2>
+        </div>
+
+    </div>
+
+
+    <!--Its good to be back. Welcome BACK to HTML-->
