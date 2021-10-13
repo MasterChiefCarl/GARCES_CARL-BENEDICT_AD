@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -7,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  title = 'portal';
-  userCredential1:string = 'NULL';
-  userCredential2:string = 'NULL';
+  constructor (private router:Router){};
 
+
+  title = 'portal';
+  private userCredential1:string = 'carlgarces7@gmail.com';
+  private userCredential2:string = 'trollwarlord69';
+
+  ngOnInit():void{}
 
   users: Array<any> =[
     {username: 'potato', password: 'tomato'},
@@ -20,8 +26,15 @@ export class LoginComponent implements OnInit {
   ];
 
   login(email:string, password:string){
-    this.userCredential1= email;
-    this.userCredential2= password;
+    if (email == this.userCredential1 && password == this.userCredential2){
+      this.router.navigate(["home"]);
+
+    }else {
+      alert ("incorrect credentials");
+      if (email !=this.userCredential1) console.log ("Wrong username");
+      if (password !=this.userCredential1) console.log ("Wrong password");
+
+    }
   }
 
 }

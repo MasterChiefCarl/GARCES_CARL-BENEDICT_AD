@@ -1,4 +1,3 @@
-<p>login works!</p>
 <div class="maincontent">
     <div class="login">
         <div class="inputs">
@@ -16,7 +15,7 @@
         <div class="button">
             <button type="button" class="btn btn-success" (click)="login(email.value,password.value)">LOGIN</button>
         </div>
-        <div>
+        <!-- <div>
             <h3>{{userCredential1}}</h3>
             <h3>{{userCredential2}}</h3>
         </div>
@@ -29,8 +28,7 @@
         <div *ngFor="user; of: users; let i = index">
             <h1>{{users[i].username }}</h1>
             <h2>{{users[i].password}}</h2>
-        </div>
-
+        </div> -->
     </div>
 
 
