@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+/*
+html, body, label (basta no period at start = elements, elements of a HTML)
+.maincontent, .inputs, .labels (basta there is a period at start = elements on the HTML aka custom names to identify content within)
+
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+body {
+    /*single '' for sites and path for local(no need '')*/
+    /*background-image: url(gif.gif);background-size: cover;*/
+    background-color: darkgreen;
+    font-family: 'Roboto', sans-serif;
+}
