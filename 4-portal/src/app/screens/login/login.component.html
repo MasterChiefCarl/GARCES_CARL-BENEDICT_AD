@@ -1,58 +1,19 @@
 <div class="mainContent">
-    <div class="login">
-        <div class="inputs">
-            <label for="EMAIL">Email</label>
-            <input type="email" name="EMAIL" [formControl]="fcEmail" />
-            <label for="PASSWORD">Password</label>
-            <input type="password" name="PASSWORD" [formControl]="fcPassword" />
-        </div>
-        <!-- <div>
-        {{ fcEmail.value }}
-        {{ fcPassword.value }}
-      </div> -->
-        <div class="actions">
-            <button (click)="login()">LOGIN</button>
-            <button (click)="nav('register')">REGISTER</button>
-        </div>
+  <div class="login">
+    <div class="inputs">
+      <label for="EMAIL">Email</label>
+      <input type="email" name="EMAIL" [formControl]="fcEmail" />
+      <label for="PASSWORD">Password</label>
+      <input type="password" name="PASSWORD" [formControl]="fcPassword" />
     </div>
+    <p>{{requestResult | json}}</p>
+    <!-- <div>
+      {{ fcEmail.value }}
+      {{ fcPassword.value }}
+    </div> -->
+    <div class="actions">
+      <button (click)="login()">LOGIN</button>
+      <button (click)="nav('register')">REGISTER</button>
+    </div>
+  </div>
 </div>
-
-
-
-
-<!-- <div class="maincontent">
-    <div class="login">
-        <div class="inputs">
-            <!--Place label and inputs box for email -->
-
-<!-- <label for="EMAIL">Email</label>
-            <input type="email" name="EMAIL" [formControl]="fCEmail" />
-
-            <!--Place label and inputs box for password -->
-
-<!-- <label for="PASSWORD">Password</label>
-            <input type="password" name="PASSWORD" [formControl]="fCPassword" />
-
-        </div>
-        <div class="actions">
-            <button type="button" class="btn btn-success" (click)="login(email.value,password.value)">LOGIN</button>
-        </div>
-        <p>Email: {{fCEmail.value}}</p>
-        <p>PassWord: </p> -->
-
-
-<!-- <div>
-            <h3>{{userCredential1}}</h3>
-            <h3>{{userCredential2}}</h3>
-        </div>
-        <div *ngIf="userCredential1.length >= 5">
-            "Username has greater or equal to 5"
-        </div>
-        <div *ngIf="userCredential1.length < 5">
-            "Username has less than or equal to 5"
-        </div>
-        <div *ngFor="user; of: users; let i = index">
-            <h1>{{users[i].username }}</h1>
-            <h2>{{users[i].password}}</h2>
-        </div> -->
-<!-- </div> -->--> Its good to be back. Welcome BACK to HTML -->

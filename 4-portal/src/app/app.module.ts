@@ -7,6 +7,7 @@ import { LoginComponent } from './screens/login/login.component';
 import { HomeComponent } from './screens/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './screens/register/register.component';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,8 @@ import { RegisterComponent } from './screens/register/register.component';
     RegisterComponent
   ],
   imports: [
+    HttpClientModule,
+    BrowserModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule
