@@ -14,6 +14,11 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  @Get('/populate')
+  populateUsers(){
+      return this.userService.populateUsers();
+  }
+
   @Post('/register')
   register(@Body() body: any) {
     return this.userService.register(body);
@@ -28,6 +33,7 @@ export class UserController {
   getAllUser() {
     return this.userService.getAll();
   }
+  
   @Get('/search/:term')
   searchUser(@Param('term') term: string) {
     return this.userService.searchUser(term);

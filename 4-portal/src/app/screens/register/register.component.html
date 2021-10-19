@@ -12,9 +12,10 @@
             <label for="PASSWORD_2">Confirm Password</label>
             <input type="password" name="PASSWORD_2" formControlName="fcPassword2" />
 
-            <p>{{ error }}</p>
+            <p>{{error}}</p>
             <p>{{registerForm.value}}</p>
-            <p>{{ registerForm.status }}</p>
+            <p>{{registerForm.status}}</p>
+            <p>{{result.data}}</p>
             <button type="submit" [disabled]="!registerForm.valid">
           CREATE ACCOUNT
         </button>

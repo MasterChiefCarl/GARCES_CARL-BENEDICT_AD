@@ -10,7 +10,7 @@ const DEBUG: boolean = true;
 export class UserService {
   private DB = admin.firestore();
   constructor() {}
-
+  
   // advanced version
   async resetDatabase(): Promise<boolean> {
     try {
@@ -56,6 +56,21 @@ export class UserService {
       return false;
     }
   }
+  
+  async populateUsers(): Promise<any> {
+    try {
+        var users = Helper.populate();
+        users.forEach((user) => {
+            this.saveToDB(user);
+        })
+        await this.logAllUsers()
+        var result: CRUDReturn = await this.getAll();
+        console.log(result);
+        return result;
+    } catch (error) {
+        return { success: false, data: error };
+    }
+}//OK
 
   async register(body: any): Promise<CRUDReturn> {
     try {

@@ -1,14 +1,18 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
+
 export class RegisterComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private api: HttpClient) {}
 
   registerForm: FormGroup = new FormGroup({
     fcName: new FormControl('', Validators.required),
@@ -17,22 +21,26 @@ export class RegisterComponent implements OnInit {
     fcPassword: new FormControl('', Validators.required),
     fcPassword2: new FormControl('', Validators.required),
   });
+  
+  result: any ={success:false, data:'Fill In data to Register'};
 
   error: string = '';
 
   ngOnInit(): void {}
 
-  onSubmit() {
+  async onSubmit():Promise<any>{
     if (
       this.registerForm.value['fcPassword'] !==
       this.registerForm.value['fcPassword2']
     ) {
       this.error = 'Password doesnt match!';
+      this.result = {success: false, data:'Registration Failed'};
       return;
     }
     if (!this.registerForm.valid) {
       {
         this.error = 'No fields must be empty';
+        this.result = {success: false, data:'Registration Failed'};
         return;
       }
     }
@@ -50,6 +58,27 @@ export class RegisterComponent implements OnInit {
         password: this.registerForm.value.fcPassword,
       };
       console.log(payload);
+      
+      this.result= await this.api
+      .post(environment.API_URL+'/user/register', {
+        name: payload.name,
+        age: payload.age,
+        email: payload.email,
+        password: payload.password,
+      }).toPromise();
+
+      console.log(this.result);
+
+      if (this.result.success) {
+        this.result = {success: true, data:'Registration Success'};
+        this.error = 'SUCCESS'
+        return;
+      }
+      else  {
+        this.error = 'FAILURE'
+        return;
+      }
+
     }
   }
 

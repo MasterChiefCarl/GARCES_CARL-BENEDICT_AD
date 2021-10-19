@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-user-list',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private router: Router, private api: HttpClient) {}
   ngOnInit(): void {
   }
 
+  nav(destination: string) {
+    this.router.navigate([destination]);
+  }
 }
