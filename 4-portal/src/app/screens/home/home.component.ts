@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
   nav(destination: string) {
     this.router.navigate([destination]);
   }

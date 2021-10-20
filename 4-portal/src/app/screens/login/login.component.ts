@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   fcEmail = new FormControl();
   fcPassword = new FormControl();
   requestResult = '';
+  successID:{name:string, age:number, email:string,password:string} = {name:"", age:0, email:"",password:""};
   
   async login() {
     var result: any = await this.api
@@ -28,8 +29,10 @@ export class LoginComponent implements OnInit {
       })
       .toPromise();
     if(result.success){
+      this.successID = {name: result.data.name, age:result.data.age, email: result.data.email, password: this.fcPassword.value}
       this.nav('home');
     }
+    
     // if (
     //   this.fcEmail.value == 'daniel@gmail.com' &&
     //   this.fcPassword.value == '12345678'
@@ -40,6 +43,9 @@ export class LoginComponent implements OnInit {
     //   console.log('Nagkakamali ka ng susi');
     // }
   }
+  
+
+
   nav(destination: string) {
     this.router.navigate([destination]);
   }

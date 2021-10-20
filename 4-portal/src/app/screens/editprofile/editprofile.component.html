@@ -1,0 +1,29 @@
+<div class="mainContent">
+    <div class="login">
+        <form class="inputs" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <label for="NAME">New Name</label>
+            <input type="text" name="NAME" formControlName="fcName" />
+            <label for="AGE">New Age</label>
+            <input type="number" name="AGE" formControlName="fcAge" />
+            <label for="EMAIL_OLD">Old Email</label>
+            <input type="email" name="EMAIL_OLD" formControlName="fcOLDEmail" />
+            <label for="EMAIL">New Email</label>
+            <input type="email" name="EMAIL" formControlName="fcEmail" />
+            <label for="PASSWORD_OLD">Old Password</label>
+            <input type="password" name="PASSWORD_OLD" formControlName="fcOLDPassword" />
+            <label for="PASSWORD">New Password</label>
+            <input type="password" name="PASSWORD" formControlName="fcPassword" />
+            <label for="PASSWORD_2">Confirm new Password</label>
+            <input type="password" name="PASSWORD_2" formControlName="fcPassword2" />
+
+            <p>{{error}}</p>
+            <p>{{registerForm.value}}</p>
+            <p>{{registerForm.status}}</p>
+            <p>{{result.data}}</p>
+            <button type="submit" [disabled]="!registerForm.valid">UPDATE ACCOUNT</button>
+        </form>
+        <div class="actions">
+            <button (click)="nav('home')">CANCEL EDIT PROFILE</button>
+        </div>
+    </div>
+</div>

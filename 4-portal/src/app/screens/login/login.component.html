@@ -6,11 +6,10 @@
             <label for="PASSWORD">Password</label>
             <input type="password" name="PASSWORD" [formControl]="fcPassword" />
         </div>
-        <p>{{requestResult | json}}</p>
-        <!-- <div>
-      {{ fcEmail.value }}
-      {{ fcPassword.value }}
-    </div> -->
+        <!-- <p>{{requestResult | json}}</p>
+        <div>
+            {{ fcEmail.value }} {{ fcPassword.value }}
+        </div> -->
         <div class="actions">
             <button (click)="login()">LOGIN</button>
             <button (click)="nav('register')">REGISTER</button>

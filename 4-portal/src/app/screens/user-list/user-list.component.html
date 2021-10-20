@@ -1,13 +1,35 @@
 <div class="mainContent">
-    <div class="login">
-        <p>user-list works!</p>
-        <div class='table'>
-            <p> TRY TO PLAY WITH THE *NGFOR LOOP TO CREATE THE User List SEARCH "HOW TO MAKE TABLE IN HTML AND SEARCH FOR HOW TO USE NGFOR LOOP"
-            </p>
+
+
+    <div class="userlist">
+        <div class="header">
+            <h1>Full User List</h1>
+            <br>
+            <div class="table">
+                <table>
+                    <tr>
+                        <th>ID NUMBER</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr *ngFor="let user of users">
+                        <td>{{user.id}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.age}}</td>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr class="endcol">
+                        <td colspan="4">END OF TABLE</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="actions">
+            <button (click)="nav('user-list')">Refresh Content</button>
+            <button (click)="nav('home')">Return to Previous Page</button>
         </div>
     </div>
-</div>
-
-<div class="actions">
-    <button (click)="nav('home')">Return to Previous Page</button>
 </div>
