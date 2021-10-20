@@ -5,7 +5,7 @@ import { LoginComponent } from './screens/login/login.component';
 import { RegisterComponent } from './screens/register/register.component';
 import { UserListComponent } from './screens/user-list/user-list.component';
 import { EditprofileComponent } from './screens/editprofile/editprofile.component';
-import { SearchtermComponent } from './screens/searchterm/searchterm.component';
+// import { SearchtermComponent } from './screens/searchterm/searchterm.component';
 
 const routes: Routes = [
   {
@@ -31,12 +31,11 @@ const routes: Routes = [
   {
     path:'editprofile',
     component: EditprofileComponent
-  },
+  }
   // {
   //   path:'searchterm',
   //   component: SearchtermComponent
   // }
-
 ];
 
 @NgModule({
