@@ -1,0 +1,27 @@
+.nav-body {
+    height: 102px;
+    width: 100vw;
+    background-color: #05386B;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 50px auto;
+    align-items: center;
+    justify-items: center;
+    .site-title {
+        h3 {
+            color: #EDF5E1;
+        }
+    }
+    .site-links {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        justify-items: center;
+    }
+    h5 {
+        margin-left: 8px;
+        margin-right: 8px;
+        cursor: pointer;
+        color: white;
+    }
+}

@@ -1,0 +1,19 @@
+.default-layout-body {
+    display: grid;
+    grid-template-rows: auto, auto;
+    height: 100vh;
+    width: 100vh;
+    overflow: hidden;
+    .nav {
+        position: sticky;
+    }
+    .content {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+    }
+}

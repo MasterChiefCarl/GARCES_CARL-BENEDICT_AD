@@ -12,15 +12,17 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Email</th>
+                        <th>Modify</th>
                     </tr>
                     <tr *ngFor="let user of users">
                         <td>{{user.id}}</td>
                         <td>{{user.name}}</td>
                         <td>{{user.age}}</td>
                         <td>{{user.email}}</td>
+                        <td></td>
                     </tr>
                     <tr class="endcol">
-                        <td colspan="4">END OF TABLE</td>
+                        <td colspan="5">END OF TABLE</td>
                     </tr>
 
                 </table>

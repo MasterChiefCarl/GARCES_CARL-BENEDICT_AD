@@ -10,6 +10,10 @@ import { RegisterComponent } from './screens/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserListComponent } from './screens/user-list/user-list.component';
 import { EditprofileComponent } from './screens/editprofile/editprofile.component';
+import { SharedModule } from './shared/shared.module';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { NavbarComponent } from './layouts/navbar/navbar.component';
+import { ApiService } from './shared/api.service';
 
 @NgModule({
   declarations: [
@@ -19,14 +23,17 @@ import { EditprofileComponent } from './screens/editprofile/editprofile.componen
     RegisterComponent,
     UserListComponent,
     EditprofileComponent,
+    DefaultLayoutComponent,
+    NavbarComponent,
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

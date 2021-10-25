@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ApiService } from 'src/app/shared/api.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { environment } from 'src/environments/environment';
 
 
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private api: HttpClient) {}
+  constructor(private router: Router, private api: ApiService) {}
 
   ngOnInit(): void {}
 
@@ -23,11 +24,10 @@ export class LoginComponent implements OnInit {
   
   async login() {
     var result: any = await this.api
-      .post(environment.API_URL + '/user/login', {
+      .post('/user/login', {
         email: this.fcEmail.value,
         password: this.fcPassword.value,
-      })
-      .toPromise();
+      });
     if(result.success){
       this.successID = {name: result.data.name, age:result.data.age, email: result.data.email, password: this.fcPassword.value}
       this.nav('home');
