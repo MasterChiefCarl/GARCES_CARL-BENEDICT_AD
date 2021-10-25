@@ -134,6 +134,7 @@ export class UserService {
   async getAll(): Promise<CRUDReturn> {
     var results: Array<any> = [];
     try {
+      console.log("Gathering all the Users");
       var allUsers = await this.getAllUserObjects();
       allUsers.forEach((user) => {
         results.push(user.toJson(true));
