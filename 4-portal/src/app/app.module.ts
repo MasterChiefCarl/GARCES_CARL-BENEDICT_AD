@@ -8,12 +8,16 @@ import { HomeComponent } from './screens/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './screens/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
-import { UserListComponent } from './screens/user-list/user-list.component';
-import { EditprofileComponent } from './screens/editprofile/editprofile.component';
 import { SharedModule } from './shared/shared.module';
+import { ApiService } from './shared/api.service';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
-import { ApiService } from './shared/api.service';
+import { FooterComponent } from './layouts/footer/footer.component';
+import { AuthService } from './shared/auth.service';
+import { UsersComponent } from './screens/users/users.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SearchtermComponent } from './screens/searchterm/searchterm.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,10 +25,11 @@ import { ApiService } from './shared/api.service';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    UserListComponent,
-    EditprofileComponent,
     DefaultLayoutComponent,
     NavbarComponent,
+    FooterComponent,
+    UsersComponent,
+    SearchtermComponent
   ],
   imports: [
     HttpClientModule,
@@ -32,8 +37,10 @@ import { ApiService } from './shared/api.service';
     AppRoutingModule,
     ReactiveFormsModule,
     SharedModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule
   ],
-  providers: [ApiService],
+  providers: [ApiService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

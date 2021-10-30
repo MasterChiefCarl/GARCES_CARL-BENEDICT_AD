@@ -1,18 +1,15 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-
 export class RegisterComponent implements OnInit {
-  constructor(private router: Router, private api: HttpClient) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   registerForm: FormGroup = new FormGroup({
     fcName: new FormControl('', Validators.required),
@@ -21,26 +18,27 @@ export class RegisterComponent implements OnInit {
     fcPassword: new FormControl('', Validators.required),
     fcPassword2: new FormControl('', Validators.required),
   });
-  
-  result: any ={success:false, data:'Fill In data to Register'};
 
   error: string = '';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
-  async onSubmit():Promise<any>{
+
+  onSubmit() {
     if (
       this.registerForm.value['fcPassword'] !==
       this.registerForm.value['fcPassword2']
     ) {
       this.error = 'Password doesnt match!';
-      this.result = {success: false, data:'Registration Failed'};
+      console.log(this.error);
       return;
     }
     if (!this.registerForm.valid) {
       {
         this.error = 'No fields must be empty';
-        this.result = {success: false, data:'Registration Failed'};
+        console.log(this.error);
         return;
       }
     }
@@ -53,32 +51,19 @@ export class RegisterComponent implements OnInit {
       };
       payload = {
         name: this.registerForm.value.fcName,
-        age: this.registerForm.value.fcAge,
+        age: parseInt(this.registerForm.value.fcAge),
         email: this.registerForm.value.fcEmail,
         password: this.registerForm.value.fcPassword,
       };
-      console.log(payload);
-      
-      this.result= await this.api
-      .post(environment.API_URL+'/user/register', {
-        name: payload.name,
-        age: payload.age,
-        email: payload.email,
-        password: payload.password,
-      }).toPromise();
-
-      console.log(this.result);
-
-      if (this.result.success) {
-        this.result = {success: true, data:'Registration Success'};
-        this.error = 'SUCCESS'
-        return;
-      }
-      else  {
-        this.error = 'FAILURE'
-        return;
-      }
-
+      this.auth.register(payload).then((data) => {
+        console.log(data);
+        if (this.auth.authenticated) {
+          this.nav('home');
+        } else {
+          this.error = data.data;
+          console.log(this.error);
+        }
+      });
     }
   }
 

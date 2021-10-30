@@ -14,17 +14,19 @@
                         <th>Email</th>
                         <th>Modify</th>
                     </tr>
-                    <tr *ngFor="let user of users">
+                    <tr *ngFor="let user of users; index as x">
+                        <td>{{x+1}}</td>
                         <td>{{user.id}}</td>
                         <td>{{user.name}}</td>
                         <td>{{user.age}}</td>
                         <td>{{user.email}}</td>
-                        <td></td>
+                        <td>
+                            <fa-icon (click)="deleteUser(i)" [icon]="faTrash"></fa-icon>
+                        </td>
                     </tr>
                     <tr class="endcol">
                         <td colspan="5">END OF TABLE</td>
                     </tr>
-
                 </table>
             </div>
         </div>

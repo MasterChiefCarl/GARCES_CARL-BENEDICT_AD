@@ -1,17 +1,15 @@
 .nav-body {
-    height: 102px;
-    width: 100vw;
-    background-color: #05386B;
+    height: 64px;
+    padding: 0 16px 0 16px;
     display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 50px auto;
+    grid-template-columns: 50px auto 50px;
     align-items: center;
     justify-items: center;
-    
-    
+    background-color: #ffffff3a;
+    color: #edf5e1;
     .site-title {
         h3 {
-            color: #EDF5E1;
+            cursor: pointer;
         }
     }
     .site-links {
@@ -20,11 +18,8 @@
         align-items: center;
         justify-items: center;
     }
-    
     h5 {
-        margin-left: 8px;
-        margin-right: 8px;
+        margin: 0 8px 0 8px;
         cursor: pointer;
-        color: white;
     }
 }

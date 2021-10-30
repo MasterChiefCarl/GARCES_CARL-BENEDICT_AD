@@ -1,0 +1,35 @@
+<div class="userMain">
+    <table>
+        <thead>
+            <h1>Users</h1>
+            <h4 (click)="resetDB()">Reset Database data</h4>
+            <tr>
+                <th>User Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.age }}</td>
+                <td class="options">
+                    <fa-icon [ngStyle]="{'color': 'red'} " (click)="deleteUser(i)" [icon]="faTrash"></fa-icon>
+                </td>
+                <td class="options">
+                    <fa-icon [ngStyle]="{'color': 'red'}" (click)="deleteUser(i)" [icon]="faPenAlt"></fa-icon>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="endcol">
+                <td colspan="6">END OF TABLE</td>
+            </tr>
+        </tfoot>
+
+    </table>
+</div>
