@@ -32,8 +32,12 @@ export class UsersComponent implements OnInit {
   }
 
   async resetDB(){
+    var decision = confirm('Are you sure you want to reset Database?');
+    if(decision)
+    {
     var result = await this.api.patch('/user/reset');
     this.getData();
+    }
   }
 
   async getData(term?: string) {
