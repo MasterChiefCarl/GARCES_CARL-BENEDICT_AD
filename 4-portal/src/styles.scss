@@ -20,16 +20,16 @@ html {
 }
 
 body {
-    font-family: "Roboto", sans-serif;
     background-image: url(assets/komisanbg2f.jpg);
     background-size: cover;
+    font-family: 'Roboto', sans-serif;
     color: #05386b;
 }
 
 h1 {
     color: white;
     padding-top: 5px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     text-shadow: 2px 2px 5px gray;
 }
 
@@ -46,14 +46,4 @@ h4 {
 
 h5 {
     color: #05386b;
-}
-
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

@@ -19,6 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchtermComponent } from './screens/searchterm/searchterm.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavbarComponent,
     FooterComponent,
     UsersComponent,
-    SearchtermComponent
+    SearchtermComponent,
+    
   ],
   imports: [
     HttpClientModule,

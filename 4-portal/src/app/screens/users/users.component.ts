@@ -14,6 +14,7 @@ export class UsersComponent implements OnInit {
   //icons
   faTrash = faTrash;
   faPenAlt=faPenAlt;
+  searchValue: string = '';
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {

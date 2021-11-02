@@ -3,6 +3,8 @@
         <thead>
             <h1>Users</h1>
             <h4 (click)="resetDB()">Reset Database data</h4>
+            <!-- <label for="search" class="col-sm-2 col-form-label">Search</label>
+            <input type="text" [(ngModel)]="searchValue" class="form-control" id="search" /> -->
             <tr>
                 <th>User Number</th>
                 <th>Name</th>
@@ -13,21 +15,22 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of users; index as i">
+
                 <td>{{ i + 1 }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.age }}</td>
-                <td class="options">
-                    <fa-icon [ngStyle]="{'color': 'red'} " (click)="deleteUser(i)" [icon]="faTrash"></fa-icon>
+                <td class=" options ">
+                    <fa-icon [ngStyle]="{ 'color': 'red'} " (click)="deleteUser(i) " [icon]="faTrash "></fa-icon>
                 </td>
-                <td class="options">
-                    <fa-icon [ngStyle]="{'color': 'red'}" (click)="deleteUser(i)" [icon]="faPenAlt"></fa-icon>
+                <td class="options ">
+                    <fa-icon [ngStyle]="{ 'color': 'red'} " (click)="deleteUser(i) " [icon]="faPenAlt "></fa-icon>
                 </td>
             </tr>
         </tbody>
         <tfoot>
-            <tr class="endcol">
-                <td colspan="6">END OF TABLE</td>
+            <tr class="endcol ">
+                <td colspan="6 ">END OF TABLE</td>
             </tr>
         </tfoot>
 

@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(private router: Router, public auth: AuthService) {}
 
   registerForm: FormGroup = new FormGroup({
     fcName: new FormControl('', Validators.required),
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   error: string = '';
 
   ngOnInit(): void {
-    
+
   }
 
 

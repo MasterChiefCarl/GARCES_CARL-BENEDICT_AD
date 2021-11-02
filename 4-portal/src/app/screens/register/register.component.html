@@ -18,7 +18,9 @@
         </form>
         <div class="actions">
             {{error}}
-            <button (click)="nav('login')">BACK TO LOGIN</button>
+            <button *ngIf="!auth.authenticated" (click)="nav('login')">BACK TO LOGIN</button>
+            <button *ngIf="auth.authenticated" (click)="nav('home')">RETURN TO HOME PAGE</button>
+
         </div>
     </div>
 </div>

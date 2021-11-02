@@ -5,6 +5,7 @@ import { HomeComponent } from './screens/home/home.component';
 import { LoginComponent } from './screens/login/login.component';
 import { RegisterComponent } from './screens/register/register.component';
 import { SearchtermComponent } from './screens/searchterm/searchterm.component';
+import { UsersComponent } from './screens/users/users.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,12 @@ const routes: Routes = [
         component: HomeComponent,
       },
       { path: 'search',
-      component: SearchtermComponent,}
+      component: SearchtermComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      }
     ],
   },
 ];
