@@ -1,10 +1,12 @@
 <div class="userMain">
-    <table>
+    <table *ngIf="viewedUserIndex == undefined">
         <thead>
-            <h1>Users</h1>
-            <h4 (click)="resetDB()">Reset Database data</h4>
-            <!-- <label for="search" class="col-sm-2 col-form-label">Search</label>
-            <input type="text" [(ngModel)]="searchValue" class="form-control" id="search" /> -->
+            <th>
+                <h3>Users</h3>
+                <h5 (click)="resetDB()">Repopulate db</h5>
+            </th>
+            <th colspan="4">
+                <label for="Search">Search Term </label><input type="search" (change)="getData(searchVal.value)" #searchVal></th>
             <tr>
                 <th>User Number</th>
                 <th>Name</th>
@@ -22,9 +24,7 @@
                 <td>{{ user.age }}</td>
                 <td class=" options ">
                     <fa-icon [ngStyle]="{ 'color': 'red'} " (click)="deleteUser(i) " [icon]="faTrash "></fa-icon>
-                </td>
-                <td class="options ">
-                    <fa-icon [ngStyle]="{ 'color': 'red'} " (click)="deleteUser(i) " [icon]="faPenAlt "></fa-icon>
+                    <fa-icon (click)="viewUserData(i)" [icon]="faEdit"></fa-icon>
                 </td>
             </tr>
         </tbody>
@@ -35,4 +35,5 @@
         </tfoot>
 
     </table>
+    <edit-user *ngIf="viewedUserIndex != undefined" [id]="userID" [user]="users[viewedUserIndex]" (backEvent)="handleBackEvent($event)"></edit-user>
 </div>

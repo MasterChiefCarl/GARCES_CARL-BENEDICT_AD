@@ -122,11 +122,14 @@ export class User {
     console.log(`current password ${this.password}, attempt: ${password}`);
     try {
       if (this.password === password) {
+        console.log("Login Is Successful");
         return { success: true, data: this.toJson() };
       } else {
+        console.log("Login Is Unsuccessful");
         throw new Error(`${this.email} login fail, password does not match`);
       }
     } catch (error) {
+      console.log("Error Catch");
       return { success: false, data: error.message, };
     }
   }

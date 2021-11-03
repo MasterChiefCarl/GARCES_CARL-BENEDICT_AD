@@ -1,1 +1,15 @@
-<h1>WELCOME USER!</h1>
+<div class="mainContent">
+    <div class="dbox">
+        <div class="inputs">
+            <h3>
+                WELCOME {{this.username}}
+            </h3>
+        </div>
+        <div class="actions">
+            <button (click)="nav('users')">User List</button>
+            <button (click)="nav('register')">Create a New User</button>
+            <button class="logout" (click)='logout()'>Logout</button>
+        </div>
+
+    </div>
+</div>

@@ -16,6 +16,23 @@
             background-color: black;
             color: white;
             text-shadow: 2px 2px 5px black;
+            max-height: 60px;
+            label {
+                padding-bottom: 4px;
+                padding-top: 4px;
+            }
+            input {
+                padding-top: 4px;
+                padding-bottom: 4px;
+            }
+            h3,
+            h5 {
+                color: white;
+                cursor: pointer;
+            }
+            h5 {
+                color: red;
+            }
         }
         td {
             text-align: left;
@@ -28,6 +45,8 @@
             background-color: #FF7FB3a8;
         }
         td.options {
+            width: 40px;
+            padding: 0px;
             cursor: pointer;
             text-align: center;
         }
@@ -39,8 +58,9 @@
             color: white;
             text-shadow: 2px 2px 5px black;
         }
-    }
-    h3 {
-        cursor: pointer;
+        fa-icon {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
     }
 }

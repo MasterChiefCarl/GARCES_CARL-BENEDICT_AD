@@ -43,6 +43,21 @@ export class AuthService {
     return output;
   }
 
+  async update(payload: {
+    name?: string;
+    age?: number;
+    email?: string;
+    password?:string;
+  },id:string ): Promise<CRUDReturn>{
+    var result = await this.api.patch(`/user/${id}`,payload);
+    var output: CRUDReturn = {success: result.success, data: result.data};
+    if (output.success === true) {
+      this.user= User.fromJson(output.data.id, output.data);
+    }
+    return output; // if fails or others
+  }
+
+
   logout() {
     this.user = null;
   }

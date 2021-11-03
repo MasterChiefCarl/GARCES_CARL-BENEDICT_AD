@@ -271,15 +271,18 @@ export class UserService {
       var user: User = await User.retrieve(id);
       if (user != null) {
         var success: boolean = await user.delete();
+      console.log(`${id} has been deleted!`);
         return {
           success: success,
           data: `User ${id} has been successfully removed`,
         };
-      } else
+      } else{
+        console.log(`${id} has not been found!`);
         return {
           success: false,
           data: `User ${id} is not in database`,
         };
+      }
     } catch (error) {
       console.log("DeleteError");
       console.log(error.message);
@@ -294,8 +297,10 @@ export class UserService {
     try {
       var user: User = await User.retrieveViaEmail(email);
       if (user != null) {
+        console.log("Email Exists login in...");
         return user.login(password);
       } else {
+        console.log("Email does NOT EXISTS login in FAIL...");
         return { success: false, data: `${email} not found in database` };
       }
     } catch (error) {

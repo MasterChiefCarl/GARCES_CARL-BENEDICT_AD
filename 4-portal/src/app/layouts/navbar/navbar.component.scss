@@ -1,12 +1,11 @@
 .nav-body {
-    height: 35px;
+    height: 64px;
     padding: 0 16px 0 16px;
     display: grid;
     grid-template-columns: 50px auto 50px;
     align-items: center;
     justify-items: center;
-    background-color: #ffffff3a;
-    color: #edf5e1;
+    background-color: #edf5e13a;
     .site-title {
         h3 {
             cursor: pointer;

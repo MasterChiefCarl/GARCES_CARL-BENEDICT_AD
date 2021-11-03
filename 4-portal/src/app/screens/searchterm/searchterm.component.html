@@ -1,7 +1,11 @@
 <div class="mainContent">
-    <div class="login">
-        <label for="searchTerm">Search Item in Database</label>
-        <input type="text" name="searchTerm" id="searchTerm" placeholder="Search..." autocomplete="off">
-
+    <div class="dbox">
+        <div class="inputs">
+            <label for="searchTerm">Search Item in Database</label>
+            <input type="text" name="searchTerm" id="searchTerm" placeholder="Search..." autocomplete="off">
+        </div>
+        <div class="actions">
+            <button (click)="search()">SEARCH</button>
+            <button (click)="nav('home')">HOME</button>
+        </div>
     </div>
-</div>

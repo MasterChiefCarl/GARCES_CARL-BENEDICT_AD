@@ -3,25 +3,7 @@
     display: grid;
     justify-content: center;
     align-content: center;
-    .login {
-        background-color: #ffffff3a;
-        border: 1px black solid;
-        -webkit-box-shadow: 8px 15px 15px 0px rgba(0, 0, 0, 0.27);
-        box-shadow: 8px 15px 15px 0px rgba(0, 0, 0, 0.27);
-        color: black;
-        box-shadow: border;
-        width: 600px;
-        height: 400px;
-        border-radius: 24px;
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        animation: fadeIn linear 1s;
-        -webkit-animation: fadeIn linear 1s;
-        -moz-animation: fadeIn linear 1s;
-        -o-animation: fadeIn linear 1s;
-        -ms-animation: fadeIn linear 1s;
+    .dbox {
         .inputs {
             display: flex;
             flex-direction: column;

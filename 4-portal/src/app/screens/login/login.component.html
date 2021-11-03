@@ -1,11 +1,13 @@
 <div class="mainContent">
-    <div class="login">
+    <div class="dbox">
         <div class="inputs">
             <h3><label for="EMAIL">Email</label></h3>
             <input type="email" name="EMAIL" [formControl]="fcEmail" />
             <h3><label for="PASSWORD">Password</label></h3>
             <input type="password" name="PASSWORD" [formControl]="fcPassword" />
-            <h5 *ngIf="error!=''">{{error}}</h5>
+            <div class="errorbox">
+                <h5 *ngIf="error!=''">{{error}}</h5>
+            </div>
         </div>
         <div class="actions">
             <button (click)="login()">LOGIN</button>

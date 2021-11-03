@@ -18,6 +18,7 @@ import { UsersComponent } from './screens/users/users.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchtermComponent } from './screens/searchterm/searchterm.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditComponent } from './screens/edit/edit.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent,
     UsersComponent,
     SearchtermComponent,
+    EditComponent,
     
   ],
   imports: [
