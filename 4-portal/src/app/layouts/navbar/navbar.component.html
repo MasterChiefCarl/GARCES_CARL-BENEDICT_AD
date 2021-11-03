@@ -10,7 +10,7 @@
 
     </div>
     <div class="site-user">
-        <h5 *ngIf="auth.authenticated" (click)='logout()'>Logout</h5>
-        <h5 *ngIf="!auth.authenticated" (click)="nav('login')">Login</h5>
+        <h4 *ngIf="auth.authenticated" (click)='logout()'>Logout</h4>
+        <h4 *ngIf="!auth.authenticated" (click)="nav('login')">Login</h4>
     </div>
 </div>

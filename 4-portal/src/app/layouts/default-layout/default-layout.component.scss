@@ -10,7 +10,7 @@
     .content {
         height: max-content;
         min-height: calc(100vh - 102px);
-        overflow-y: auto;
+        overflow-y: hidden;
         display: grid;
         grid-auto-flow: row;
         grid-template-rows: 0 auto 0px;

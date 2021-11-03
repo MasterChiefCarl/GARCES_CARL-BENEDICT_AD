@@ -5,8 +5,19 @@
                 <h3>Users</h3>
                 <h5 (click)="resetDB()">Repopulate db</h5>
             </th>
-            <th colspan="4">
-                <label for="Search">Search Term </label><input type="search" (change)="getData(searchVal.value)" #searchVal></th>
+            <th colspan="5" class="search">
+                <!-- <label for="Search">Search Term</label>
+                    <input type="search" (change)="getData(searchVal.value)" #searchVal> -->
+                <div>
+                    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+                        <label for="Search">Search Term </label>
+                        <br>
+                        <input type="text" name="SEARCH" formControlName="fcSearch" />
+                        <button type="submit"> SEARCH TERM </button>
+                    </form>
+                    <button (click)="nav('users')">REFRESH</button>
+                </div>
+            </th>
             <tr>
                 <th>User Number</th>
                 <th>Name</th>

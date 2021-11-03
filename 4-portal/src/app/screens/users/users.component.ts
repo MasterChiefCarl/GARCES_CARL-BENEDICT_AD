@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/model/user.model';
 import { ApiService } from 'src/app/shared/api.service';
@@ -18,12 +20,34 @@ export class UsersComponent implements OnInit {
   viewedUserIndex:number | undefined;
   userID:string |undefined;
 
-  constructor(private api: ApiService) {}
+  constructor(private router: Router,private api: ApiService) {}
+
+  searchForm: FormGroup = new FormGroup({
+    fcSearch: new FormControl('', Validators.required),
+  });
+  error: string = '';
 
   ngOnInit(): void {
     console.log(`collecting this.users data`)
     this.getData();
 
+  }
+
+  nav(destination: string) {
+    this.router.navigate([destination]);
+  }
+
+  async onSubmit() {
+    if (!this.searchForm.valid) {
+      {
+        this.error = 'Search must not be empty';
+        console.log(this.error);
+        return;
+      }
+    }
+    if(this.searchForm.valid) {
+      await this.getData(this.searchForm.value.fcSearch);
+    }
   }
   async search(term:any){
     var result = await this.api.get(`/user/search/${term}`);
@@ -84,8 +108,9 @@ export class UsersComponent implements OnInit {
   }
 
   handleBackEvent(event:any){
-    if(event  == true){
+    if(event == true){
       this.viewedUserIndex = undefined;
+      this.getData();
     }
   }
   viewUserData(i:number) {

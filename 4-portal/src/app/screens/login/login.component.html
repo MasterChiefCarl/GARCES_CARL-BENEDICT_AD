@@ -5,12 +5,12 @@
             <input type="email" name="EMAIL" [formControl]="fcEmail" />
             <h3><label for="PASSWORD">Password</label></h3>
             <input type="password" name="PASSWORD" [formControl]="fcPassword" />
-            <div class="errorbox">
-                <h5 *ngIf="error!=''">{{error}}</h5>
-            </div>
         </div>
         <div class="actions">
-            <button (click)="login()">LOGIN</button>
+            <button (click)="login()">Login</button>
+        </div>
+        <div class="errorbox">
+            <h5 *ngIf="error!=''">{{error}}</h5>
         </div>
         <h5 (click)="nav('register')">No account yet? Create an account</h5>
     </div>
