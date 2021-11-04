@@ -17,11 +17,14 @@
         align-items: center;
         justify-items: center;
     }
-    h5 {
-        margin: 0 8px 0 8px;
-        cursor: pointer;
+    .site-user {
+        h3.logout:hover {
+            color: red;
+        }
     }
-    h4 {
+    h3,
+    h4,
+    h5 {
         margin: 0 8px 0 8px;
         cursor: pointer;
     }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/model/user.model';
 import { ApiService } from 'src/app/shared/api.service';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -16,16 +17,15 @@ export class UsersComponent implements OnInit {
   //icons
   faTrash = faTrash;
   faEdit = faEdit;
+  faSearch = faSearch;
   // searchValue: string = '';
   viewedUserIndex:number | undefined;
   userID:string |undefined;
+  searchService:boolean |undefined;
+  searched:string | undefined;
+  constructor(private router: Router,private api: ApiService,private auth:AuthService) {}
 
-  constructor(private router: Router,private api: ApiService) {}
-
-  searchForm: FormGroup = new FormGroup({
-    fcSearch: new FormControl('', Validators.required),
-  });
-  error: string = '';
+  
 
   ngOnInit(): void {
     console.log(`collecting this.users data`)
@@ -37,18 +37,6 @@ export class UsersComponent implements OnInit {
     this.router.navigate([destination]);
   }
 
-  async onSubmit() {
-    if (!this.searchForm.valid) {
-      {
-        this.error = 'Search must not be empty';
-        console.log(this.error);
-        return;
-      }
-    }
-    if(this.searchForm.valid) {
-      await this.getData(this.searchForm.value.fcSearch);
-    }
-  }
   async search(term:any){
     var result = await this.api.get(`/user/search/${term}`);
     var temp: Array<User> = [];
@@ -62,6 +50,11 @@ export class UsersComponent implements OnInit {
   }
 
   async deleteUser(i: number) {
+    if (this.users[i].id == this.auth.user?.id){
+      console.log(`${this.users[i].id} CANT BE DELETED!`);
+      window.alert(`${this.users[i].name} CAN'T BE DELETED BECUASE IT IS CURRENTLY LOGGED IN!\nLOG OUT ACCOUNT TO DELETE`);
+    }
+    else{
     console.log(`${this.users[i].id} is about to be DELETED!`);
     var decision = confirm('Are you sure you want to delete this user? ' + this.users[i].name);
     if(decision)
@@ -71,6 +64,7 @@ export class UsersComponent implements OnInit {
         this.getData();
       }
     }
+  }
   }
 
   async resetDB(){
@@ -108,13 +102,33 @@ export class UsersComponent implements OnInit {
   }
 
   handleBackEvent(event:any){
-    if(event == true){
+    if(typeof event == 'boolean'||event == true){
       this.viewedUserIndex = undefined;
+      this.searchService =undefined;
       this.getData();
     }
+    else if (typeof event == 'string'){
+      this.viewedUserIndex = undefined;
+      this.searchService =undefined;
+      this.searched = event;
+      this.getData (event);
+      
+    }
   }
+
+  enableSearchService(){
+    this.searchService = true;
+  }
+
   viewUserData(i:number) {
    this.viewedUserIndex = i;
    this.userID = this.users[i].id;
+  }
+  
+  resetSearch(){
+    this.viewedUserIndex = undefined;
+      this.searchService =undefined;
+      this.getData();
+      this.searched = undefined;
   }
 }

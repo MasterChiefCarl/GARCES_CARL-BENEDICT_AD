@@ -1,6 +1,7 @@
 <div class="mainContent">
     <div class="dbox">
-        <h3>User Info of {{id}}</h3>
+        <h2> EDIT USER INFO</h2>
+        <h3> Id code: {{id}}</h3>
         <form class="inputs" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <label for="NAME">Name</label>
             <input type="text" name="NAME" formControlName="fcName" />
@@ -13,8 +14,10 @@
             </button>
         </form>
         <div class="actions">
-            {{error}}
             <button (click)="goBack()">RETURN TO USERS LIST</button>
+            <div *ngIf="error!=''" class="errorbox">
+                <h5>{{error}}</h5>
+            </div>
         </div>
     </div>
 </div>

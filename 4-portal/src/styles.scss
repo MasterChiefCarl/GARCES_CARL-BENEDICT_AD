@@ -26,37 +26,48 @@ body {
     color: #05386b;
 }
 
-
-/*
-h1 {
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-shadow: 2px 2px 5px gray;
-}
-h3 {
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 10px;
-}
-h4 {
-    color: white;
-    text-shadow: 2px 2px 5px gray;
-}
-h5 {
-    color: #05386b;
-}
-*/
-
 h1,
 h2,
 h3,
 h4,
-h5 {
-    color: #05386b;
-    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.268);
+h5,
+h6 {
+    color: white;
+    text-shadow: 1px 1px #49494920;
     padding-top: 5px;
     padding-bottom: 5px;
+    transition-duration: 0.4s;
+}
+
+h1:hover {
+    color: #EEC2BF;
+    text-shadow: 5px 5px #5e5d5d3c;
+}
+
+h5 {
+    color: red;
+    cursor: pointer;
+    text-shadow: 1px 1px #49494920;
+}
+
+h3:hover {
+    cursor: pointer;
+    text-shadow: 3px 3px #4949497c;
+    color: #EEC2BF;
+}
+
+h5:hover {
+    /* Green */
+    color: white;
+}
+
+h6 {
+    color: black;
+    cursor: pointer;
+}
+
+h6:hover {
+    color: red;
 }
 
 .dbox {
@@ -84,6 +95,7 @@ h5 {
         label {
             padding-bottom: 4px;
             padding-top: 4px;
+            font-weight: bold;
         }
         input {
             padding-top: 8px;
@@ -99,14 +111,14 @@ h5 {
 }
 
 button {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.750);
     border: 2px solid pink;
     color: #05386b;
     font-weight: bold;
     width: 100%;
     padding: 10px 20px;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 4px;
     text-align: center;
     align-content: center;
@@ -119,7 +131,7 @@ button {
 }
 
 button:hover {
-    background-color: pink;
+    background-color: rgba(255, 192, 203, 1);
     /* Green */
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
@@ -128,49 +140,103 @@ button:hover {
 .errorbox {
     max-width: 600px;
     text-align: center;
-    color: red;
+    color: maroon;
+    background-color: rgba(0, 0, 0, 0.750);
+    border-radius: 4px;
+    border: 1px solid white;
+    cursor: default;
+    h5 {
+        /* Green */
+        color: white;
+        cursor: default;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 
 /*
-// @keyframes fadeIn {
-//     0% {
-//         opacity: 0;
-//     }
-//     100% {
-//         opacity: 1;
-//     }
-// }
-// @-moz-keyframes fadeIn {
-//     0% {
-//         opacity: 0;
-//     }
-//     100% {
-//         opacity: 1;
-//     }
-// }
-// @-webkit-keyframes fadeIn {
-//     0% {
-//         opacity: 0;
-//     }
-//     100% {
-//         opacity: 1;
-//     }
-// }
-// @-o-keyframes fadeIn {
-//     0% {
-//         opacity: 0;
-//     }
-//     100% {
-//         opacity: 1;
-//     }
-// }
-// @-ms-keyframes fadeIn {
-//     0% {
-//         opacity: 0;
-//     }
-//     100% {
-//         opacity: 1;
-//     }
-// }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 */

@@ -1,17 +1,18 @@
 <div class="mainContent">
     <div class="dbox">
         <div class="inputs">
-            <h3><label for="EMAIL">Email</label></h3>
+            <label for="EMAIL">Email</label>
             <input type="email" name="EMAIL" [formControl]="fcEmail" />
-            <h3><label for="PASSWORD">Password</label></h3>
+            <label for="PASSWORD">Password</label>
             <input type="password" name="PASSWORD" [formControl]="fcPassword" />
         </div>
         <div class="actions">
             <button (click)="login()">Login</button>
         </div>
-        <div class="errorbox">
-            <h5 *ngIf="error!=''">{{error}}</h5>
+        <div *ngIf="error!=''" class="errorbox">
+            <h5>{{error}}</h5>
         </div>
         <h5 (click)="nav('register')">No account yet? Create an account</h5>
+
     </div>
 </div>

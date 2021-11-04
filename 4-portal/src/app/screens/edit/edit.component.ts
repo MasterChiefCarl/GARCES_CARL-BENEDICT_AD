@@ -27,7 +27,6 @@ export class EditComponent implements OnInit {
 
   goBack(){
     this.backEvent.emit(true);
-    
   }
 
   ngOnInit(): void {
@@ -72,7 +71,7 @@ export class EditComponent implements OnInit {
 
       this.auth.update(payload,`${this.id}`).then((data) => {
         console.log(data);
-        if (this.auth.authenticated) {
+        if (data.success == true && this.auth.authenticated) {
           this.error = `${payload.name} has been sucessfully updated. Click Logout to login to account.`;
 
         } else {

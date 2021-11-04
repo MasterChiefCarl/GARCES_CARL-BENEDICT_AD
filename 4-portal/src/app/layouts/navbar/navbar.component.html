@@ -3,14 +3,15 @@
         <h3 (click)="nav('home')">Portal</h3>
     </div>
     <div class="site-links">
-        <h5 *ngIf="auth.authenticated" (click)="nav('register')">New Account</h5>
-        <h5 *ngIf="auth.authenticated" (click)="nav('users')">User List</h5>
-        <h5 *ngIf="auth.authenticated" (click)="nav('search')">Search</h5>
+        <h3 *ngIf="auth.authenticated" (click)="nav('home')">Home Page</h3>
+        <h3 *ngIf="auth.authenticated" (click)="nav('register')">New Account</h3>
+        <h3 *ngIf="auth.authenticated" (click)="nav('users')">User List</h3>
+        <!-- <h4 *ngIf="auth.authenticated" (click)="nav('search')">Search</h4> -->
 
 
     </div>
     <div class="site-user">
-        <h4 *ngIf="auth.authenticated" (click)='logout()'>Logout</h4>
-        <h4 *ngIf="!auth.authenticated" (click)="nav('login')">Login</h4>
+        <h3 class="logout" *ngIf="auth.authenticated" (click)='logout()'>Logout</h3>
+        <h3 *ngIf="!auth.authenticated" (click)="nav('login')">Login</h3>
     </div>
 </div>

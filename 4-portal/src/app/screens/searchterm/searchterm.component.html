@@ -1,11 +1,11 @@
 <div class="mainContent">
     <div class="dbox">
-        <div class="inputs">
-            <label for="searchTerm">Search Item in Database</label>
-            <input type="text" name="searchTerm" id="searchTerm" placeholder="Search..." autocomplete="off">
-        </div>
+        <form class="inputs" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+            <h3><label for="Search">Search Term </label></h3>
+            <input type="text" name="SEARCH" formControlName="fcSearch" />
+            <button type="submit"> SEARCH TERM </button>
+        </form>
         <div class="actions">
-            <button (click)="search()">SEARCH</button>
             <button (click)="nav('home')">HOME</button>
         </div>
     </div>

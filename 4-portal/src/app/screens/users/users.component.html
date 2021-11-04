@@ -1,23 +1,24 @@
 <div class="userMain">
-    <table *ngIf="viewedUserIndex == undefined">
+
+    <table *ngIf="viewedUserIndex == undefined && searchService == undefined">
         <thead>
-            <th>
-                <h3>Users</h3>
-                <h5 (click)="resetDB()">Repopulate db</h5>
-            </th>
-            <th colspan="5" class="search">
-                <!-- <label for="Search">Search Term</label>
-                    <input type="search" (change)="getData(searchVal.value)" #searchVal> -->
-                <div>
-                    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-                        <label for="Search">Search Term </label>
-                        <br>
-                        <input type="text" name="SEARCH" formControlName="fcSearch" />
-                        <button type="submit"> SEARCH TERM </button>
-                    </form>
-                    <button (click)="nav('users')">REFRESH</button>
-                </div>
-            </th>
+            <tr>
+                <th colspan="5">
+                    <h3 style="cursor: default">Users</h3>
+                    <div class="wrap">
+                        <div class="inbox" (click)="enableSearchService()">
+                            <h4 style="color:black">
+                                <fa-icon [icon]="faSearch"></fa-icon> Search Here
+                            </h4>
+                        </div>
+                        <button *ngIf="searched != undefined" (click)="resetSearch()">Clear</button>
+                    </div>
+                    <div style="width:10%">
+                        <h6 (click)="resetDB()">Repopulate db</h6>
+                    </div>
+
+                </th>
+            </tr>
             <tr>
                 <th>User Number</th>
                 <th>Name</th>
@@ -34,7 +35,7 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.age }}</td>
                 <td class=" options ">
-                    <fa-icon [ngStyle]="{ 'color': 'red'} " (click)="deleteUser(i) " [icon]="faTrash "></fa-icon>
+                    <fa-icon [ngStyle]="{'color': 'red'} " (click)="deleteUser(i) " [icon]="faTrash"></fa-icon>
                     <fa-icon (click)="viewUserData(i)" [icon]="faEdit"></fa-icon>
                 </td>
             </tr>
@@ -47,4 +48,5 @@
 
     </table>
     <edit-user *ngIf="viewedUserIndex != undefined" [id]="userID" [user]="users[viewedUserIndex]" (backEvent)="handleBackEvent($event)"></edit-user>
+    <searchwin *ngIf="searchService != undefined" (backEvent)="handleBackEvent($event)"></searchwin>
 </div>
