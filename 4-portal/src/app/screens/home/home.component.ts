@@ -18,9 +18,14 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
+    console.log(`User is logging out`);
+    var decision = confirm('Are you sure you want to log out?');
+    if(decision)
+    {
     this.auth.logout();
     this.nav('login');
   }
+}
   nav(destination: string) {
     this.router.navigate([destination]);
   }
