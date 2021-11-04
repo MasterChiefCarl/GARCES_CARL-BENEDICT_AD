@@ -297,10 +297,10 @@ export class UserService {
     try {
       var user: User = await User.retrieveViaEmail(email);
       if (user != null) {
-        console.log("Email Exists login in...");
+        console.log(`Email ${email}, exists login in...`);
         return user.login(password);
       } else {
-        console.log("Email does NOT EXISTS login in FAIL...");
+        console.log(`Email ${email} does NOT EXISTS login in FAIL...`);
         return { success: false, data: `${email} not found in database` };
       }
     } catch (error) {

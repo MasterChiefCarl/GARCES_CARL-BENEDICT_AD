@@ -7,8 +7,11 @@
                     <h3 style="cursor: default">Users</h3>
                     <div class="wrap">
                         <div class="inbox" (click)="enableSearchService()">
-                            <h4 style="color:black">
+                            <h4 *ngIf="searched == undefined" style="color:black">
                                 <fa-icon [icon]="faSearch"></fa-icon> Search Here
+                            </h4>
+                            <h4 *ngIf="searched != undefined" style="color:black">
+                                <fa-icon [icon]="faSearch"></fa-icon> {{searched}}
                             </h4>
                         </div>
                         <button *ngIf="searched != undefined" (click)="resetSearch()">Clear</button>
