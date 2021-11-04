@@ -72,8 +72,7 @@ export class EditComponent implements OnInit {
       this.auth.update(payload,`${this.id}`).then((data) => {
         console.log(data);
         if (data.success == true && this.auth.authenticated) {
-          this.error = `${payload.name} has been sucessfully updated. Click Logout to login to account.`;
-
+          this.error = `${payload.name} has been sucessfully updated. Return User List to see updated results`;
         } else {
           this.error = data.data;
           console.log(this.error);

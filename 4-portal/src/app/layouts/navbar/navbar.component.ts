@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     console.log(`User is logging out`);
-    var decision = confirm('Are you sure you want to log out?');
+    var decision = confirm(`${this.auth.user?.name}\nAre you sure you want to log out?`);
     if(decision)
     {
     console.log(decision);

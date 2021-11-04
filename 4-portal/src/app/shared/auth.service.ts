@@ -7,7 +7,7 @@ import { CRUDReturn } from '../model/crud_return.interface';
 })
 export class AuthService {
   public user?: User | null;
-
+  public loginconfirm:boolean = false;
   constructor(private api: ApiService) {}
 
   get authenticated(): boolean {
@@ -20,6 +20,7 @@ export class AuthService {
       var output: CRUDReturn = { success: result.success, data: result.data };
       if (output.success === true) {
         this.user = User.fromJson(output.data.id, output.data);
+        this.loginconfirm= true;
       }
       return output;
     } catch (error) {
@@ -37,10 +38,14 @@ export class AuthService {
   }): Promise<CRUDReturn> {
     var result: any = await this.api.post('/user/register', payload);
     var output: CRUDReturn = { success: result.success, data: result.data };
-    if (output.success === true) {
-      this.user = User.fromJson(output.data.id, output.data);
-    }
-    return output;
+    // if (output.success === true) {
+    //   if (this.user == null){
+    //     if (this.loginconfirm == false)
+    //     this.user = User.fromJson(output.data.id, output.data);
+    //   }
+    // }
+    console.log(`a user is logged in no swtich`);
+    return output; 
   }
 
   async update(payload: {
@@ -51,14 +56,12 @@ export class AuthService {
   },id:string ): Promise<CRUDReturn>{
     var result = await this.api.patch(`/user/${id}`,payload);
     var output: CRUDReturn = {success: result.success, data: result.data};
-    if (output.success === true) {
-      this.user= User.fromJson(output.data.id, output.data);
-    }
-    return output; // if fails or others
+    return output; // returns results wether true or false 
   }
 
 
   logout() {
     this.user = null;
+    this.loginconfirm = false;
   }
 }

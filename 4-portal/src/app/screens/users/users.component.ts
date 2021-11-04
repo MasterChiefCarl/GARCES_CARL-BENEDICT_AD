@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit {
     {
       var result = await this.api.delete(`/user/${this.users[i].id}`);
       if(result.success){
-        this.getData();
+        this.getData(this.searched);
       }
     }
   }

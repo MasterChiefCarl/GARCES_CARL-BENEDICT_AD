@@ -134,11 +134,20 @@ export class User {
     }
   }
 
+  // matches(term: string): boolean {
+  //   var keys: Array<string> = Helper.describeClass(User);
+  //   keys = Helper.removeItemOnce(keys, "password");
+  //   for (const key of keys) {
+  //     var stringcontain:string = this[key].value;
+  //     if (stringcontain.indexOf(term) != 0) return true;
+  //   }
+  //   return false;
+  // }
   matches(term: string): boolean {
     var keys: Array<string> = Helper.describeClass(User);
     keys = Helper.removeItemOnce(keys, "password");
     for (const key of keys) {
-      if (`${this[key]}` === term) return true;
+      if (`${this[key]}`.toLocaleLowerCase() === term.toLocaleLowerCase()) return true;
     }
     return false;
   }
