@@ -35,7 +35,7 @@ export class AuthService {
     age: number;
     email: string;
     password: string;
-  }): Promise<CRUDReturn> {
+  },loginafterregister:boolean = false): Promise<CRUDReturn> {
     var result: any = await this.api.post('/user/register', payload);
     var output: CRUDReturn = { success: result.success, data: result.data };
     // if (output.success === true) {

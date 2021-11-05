@@ -58,11 +58,11 @@ export class RegisterComponent implements OnInit {
       console.log(`Adding payload ${payload.name} account details`);
       this.auth.register(payload).then((data) => {
         console.log(data);
-        if (data.success == true && this.auth.authenticated) {
+        if (data.success == true) {
           this.error = `${payload.name} has been sucessfully registered.`;
           if(this.auth.loginconfirm == true) this.error = this.error + ` Logout this account to Login to new account`;
         } else {
-          this.error = data.data + "\nPlease check inputs and try again";
+          this.error = JSON.stringify(data.data) + "\nPlease check inputs and try again";
           console.log(this.error);
         }
       });
